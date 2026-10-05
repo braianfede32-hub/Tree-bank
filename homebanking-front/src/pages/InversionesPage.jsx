@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import AppLayout from '../components/AppLayout';
 import Icon from '../components/Icon';
+import TickerLogo from '../components/TickerLogo';
 import api from '../api/api';
 
 const fmt = (v, decimales = 2) => Number(v).toLocaleString('es-AR', { minimumFractionDigits: decimales, maximumFractionDigits: decimales });
@@ -326,7 +327,7 @@ function PanelAcciones({ mercado }) {
                     onClick={() => setHistoricoSimbolo(c.simbolo)}
                     title={`Ver histórico de ${c.simbolo}`}
                   >
-                    <Icon name="trending" size={17} />
+                    <TickerLogo key={c.simbolo} simbolo={c.simbolo} size={22} />
                   </div>
                   <div className="tx-info" style={{ cursor: 'pointer' }} onClick={() => setHistoricoSimbolo(c.simbolo)}>
                     <p className="tx-desc">{c.simbolo}</p>
@@ -423,7 +424,7 @@ function PanelAcciones({ mercado }) {
             return (
               <div key={t.id_tenencia} className="tx-item" style={{ flexWrap: 'wrap' }}>
                 <div className="tx-icon in" style={{ cursor: 'pointer' }} onClick={() => setHistoricoSimbolo(t.simbolo)} title={`Ver histórico de ${t.simbolo}`}>
-                  <Icon name="trending" size={19} />
+                  <TickerLogo key={t.simbolo} simbolo={t.simbolo} size={24} />
                 </div>
                 <div className="tx-info" style={{ cursor: 'pointer' }} onClick={() => setHistoricoSimbolo(t.simbolo)}>
                   <p className="tx-desc">{t.simbolo} · {fmt(t.cantidad, 0)} {Number(t.cantidad) === 1 ? 'unidad' : 'unidades'}</p>
