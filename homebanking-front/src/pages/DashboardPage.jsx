@@ -187,6 +187,27 @@ export default function DashboardPage() {
           </p>
         </div>
       </div>
+
+      <div className="dash-panel anim-up-3" style={{ marginTop: 18, display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+        <div className="quick-action-icon" style={{ flexShrink: 0 }}>
+          <Icon name="card" size={22} />
+        </div>
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 3 }}>Mercado Libre</p>
+          <p className="dash-panel-sub" style={{ fontSize: 13 }}>
+            Seguí tus compras en el marketplace más grande de la región.
+          </p>
+        </div>
+        <a
+          className="btn-outline-green"
+          href="https://www.mercadolibre.com.ar"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}
+        >
+          Ir a Mercado Libre
+        </a>
+      </div>
     </AppLayout>
   );
 }
