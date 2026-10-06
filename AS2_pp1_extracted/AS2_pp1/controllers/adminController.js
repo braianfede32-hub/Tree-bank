@@ -10,6 +10,7 @@ const Prestamo = require('../models/prestamoModel');
 const Tarjeta = require('../models/tarjetaModel');
 const Seguro = require('../models/seguroModel');
 const { reportarMora } = require('../services/moraService');
+const { validarMonto, aMonto, validarDni } = require('../utils/validaciones');
 
 const ESTADOS_VALIDOS = ['ACTIVO', 'BLOQUEADO', 'CERRADO'];
 
@@ -128,6 +129,85 @@ exports.listarTarjetas = async (req, res) => {
         res.json(tarjetas);
     } catch (error) {
         res.status(500).json({ error: 'Error al listar las tarjetas', detalle: error.message });
+    }
+};
+
+// PUT /api/admin/tarjetas/:idTarjeta/limite - Fija el limite de compra de una tarjeta.
+// Funciona sin importar el estado de la cuenta o de la tarjeta (incluso bloqueadas).
+exports.cambiarLimiteTarjeta = async (req, res) => {
+    const { idTarjeta } = req.params;
+    if (!validarMonto(req.body.limite_compra)) {
+        return res.status(400).json({ error: 'El limite debe ser un numero mayor a 0' });
+    }
+    const limite = aMonto(req.body.limite_compra);
+
+    try {
+        const tarjeta = await Tarjeta.getTarjetaDetalle(idTarjeta);
+        if (!tarjeta) {
+            return res.status(404).json({ error: 'No se encontro la tarjeta indicada' });
+        }
+        const actualizada = await Tarjeta.setLimiteCompra(idTarjeta, limite);
+        if (!actualizada) {
+            return res.status(409).json({
+                error: `El limite no puede ser menor a lo ya consumido ($ ${Number(tarjeta.saldo_consumido).toFixed(2)})`
+            });
+        }
+        res.json({ mensaje: 'Limite actualizado', id_tarjeta: actualizada.id_tarjeta, limite_compra: actualizada.limite_compra });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al cambiar el limite de la tarjeta', detalle: error.message });
+    }
+};
+
+// DELETE /api/admin/tarjetas/:idTarjeta - Quita una tarjeta (queda CERRADA, con su historial).
+// A diferencia del cierre del cliente, el admin puede cerrarla aunque tenga saldo en el resumen.
+exports.quitarTarjeta = async (req, res) => {
+    const { idTarjeta } = req.params;
+    try {
+        const tarjeta = await Tarjeta.getTarjetaDetalle(idTarjeta);
+        if (!tarjeta) {
+            return res.status(404).json({ error: 'No se encontro la tarjeta indicada' });
+        }
+        if (tarjeta.estado === 'CERRADO') {
+            return res.status(409).json({ error: 'Esta tarjeta ya esta cerrada' });
+        }
+        await Tarjeta.cerrarTarjeta(tarjeta.id_producto);
+        res.json({ mensaje: 'Tarjeta quitada', id_tarjeta: tarjeta.id_tarjeta, estado: 'CERRADO' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al quitar la tarjeta', detalle: error.message });
+    }
+};
+
+// POST /api/admin/tarjetas - Entrega una tarjeta a una persona por DNI, sin pasar por la
+// Central de Deudores ni exigir que la cuenta este activa. El limite es opcional.
+exports.darTarjeta = async (req, res) => {
+    const { dni, limite_compra } = req.body;
+    const marca = String(req.body.marca || 'VISA').toUpperCase();
+
+    if (!validarDni(dni)) {
+        return res.status(400).json({ error: 'El DNI debe tener 7 u 8 digitos' });
+    }
+    if (!Tarjeta.MARCAS_VALIDAS.includes(marca)) {
+        return res.status(400).json({ error: `La marca debe ser una de: ${Tarjeta.MARCAS_VALIDAS.join(', ')}` });
+    }
+    if (limite_compra !== undefined && limite_compra !== '' && !validarMonto(limite_compra)) {
+        return res.status(400).json({ error: 'El limite debe ser un numero mayor a 0' });
+    }
+    const limite_forzado = (limite_compra === undefined || limite_compra === '') ? undefined : aMonto(limite_compra);
+
+    try {
+        const persona = await Persona.getPersonaByDni(String(dni).trim());
+        if (!persona) {
+            return res.status(404).json({ error: 'No existe una persona con ese DNI' });
+        }
+        const tarjeta = await Tarjeta.crearTarjeta({
+            id_persona: persona.id, marca, situacion_al_otorgar: 1, limite_forzado
+        });
+        res.status(201).json({ mensaje: 'Tarjeta entregada', tarjeta });
+    } catch (error) {
+        if (error.codigo === 'TARJETA_DUPLICADA') {
+            return res.status(409).json({ error: error.message });
+        }
+        res.status(500).json({ error: 'Error al entregar la tarjeta', detalle: error.message });
     }
 };
 

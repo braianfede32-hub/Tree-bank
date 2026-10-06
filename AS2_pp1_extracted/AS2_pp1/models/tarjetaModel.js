@@ -43,8 +43,8 @@ const Tarjeta = {
     // simultaneos de la MISMA persona podian pasar los dos el chequeo (hecho en el
     // controller, antes de cualquier INSERT) y terminar con dos tarjetas activas
     // de la misma marca — el lock serializa ese par chequeo+insert por persona.
-    crearTarjeta: async ({ id_persona, marca, situacion_al_otorgar }) => {
-        const limite_compra = LIMITE_POR_SITUACION[situacion_al_otorgar] || LIMITE_POR_SITUACION[1];
+    crearTarjeta: async ({ id_persona, marca, situacion_al_otorgar, limite_forzado }) => {
+        const limite_compra = limite_forzado || LIMITE_POR_SITUACION[situacion_al_otorgar] || LIMITE_POR_SITUACION[1];
 
         for (let intento = 0; intento < 3; intento++) {
             const client = await db.connect();
@@ -185,6 +185,18 @@ const Tarjeta = {
                 SELECT id_estado_producto FROM estados_producto WHERE nombre = 'CERRADO'
              ) WHERE id_producto = $1 RETURNING id_producto`,
             [id_producto]
+        );
+        return rows[0];
+    },
+
+    // El limite nunca puede quedar por debajo de lo ya consumido; devuelve
+    // undefined si no existe la tarjeta o si el nuevo limite no alcanza.
+    setLimiteCompra: async (id_tarjeta, limite) => {
+        const { rows } = await db.query(
+            `UPDATE tarjetas_credito SET limite_compra = $2
+             WHERE id_tarjeta = $1 AND saldo_consumido <= $2
+             RETURNING *`,
+            [id_tarjeta, limite]
         );
         return rows[0];
     },

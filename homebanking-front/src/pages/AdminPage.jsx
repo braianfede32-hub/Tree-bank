@@ -21,6 +21,10 @@ export default function AdminPage() {
   const [tarjetas, setTarjetas]               = useState([]);
   const [cargandoTarjetas, setCargandoTarjetas] = useState(true);
 
+  const [accionTarjeta, setAccionTarjeta]     = useState(null); // id_tarjeta en curso
+  const [nuevaTarjeta, setNuevaTarjeta]       = useState({ dni: '', marca: 'VISA', limite: '' });
+  const [entregando, setEntregando]           = useState(false);
+
   const [seguros, setSeguros]                 = useState([]);
   const [cargandoSeguros, setCargandoSeguros] = useState(true);
 
@@ -165,6 +169,63 @@ export default function AdminPage() {
       setError(err.response?.data?.error || 'No se pudo eliminar la cuenta');
     } finally {
       setActualizando(null);
+    }
+  };
+
+  const cambiarLimiteTarjeta = async (t) => {
+    const entrada = window.prompt(
+      `Nuevo limite de compra para la tarjeta ${t.marca} ···· ${String(t.numero_tarjeta).slice(-4)} de ${t.nombre} ${t.apellido}.\n` +
+      `Consumido hoy: $ ${fmt(t.saldo_consumido)}`,
+      String(Number(t.limite_compra))
+    );
+    if (entrada === null) return;
+
+    setError('');
+    setAccionTarjeta(t.id_tarjeta);
+    try {
+      const res = await api.put(`/admin/tarjetas/${t.id_tarjeta}/limite`, { limite_compra: entrada.trim() });
+      setTarjetas((prev) => prev.map((x) => (
+        x.id_tarjeta === t.id_tarjeta ? { ...x, limite_compra: res.data.limite_compra } : x
+      )));
+    } catch (err) {
+      setError(err.response?.data?.error || 'No se pudo cambiar el limite');
+    } finally {
+      setAccionTarjeta(null);
+    }
+  };
+
+  const quitarTarjeta = async (t) => {
+    const deuda = Number(t.saldo_consumido) > 0 ? `\n\nOjo: tiene $ ${fmt(t.saldo_consumido)} pendientes en el resumen.` : '';
+    if (!window.confirm(`¿Quitar la tarjeta ${t.marca} ···· ${String(t.numero_tarjeta).slice(-4)} de ${t.nombre} ${t.apellido}? Queda cerrada.${deuda}`)) return;
+
+    setError('');
+    setAccionTarjeta(t.id_tarjeta);
+    try {
+      await api.delete(`/admin/tarjetas/${t.id_tarjeta}`);
+      setTarjetas((prev) => prev.map((x) => (
+        x.id_tarjeta === t.id_tarjeta ? { ...x, estado: 'CERRADO' } : x
+      )));
+    } catch (err) {
+      setError(err.response?.data?.error || 'No se pudo quitar la tarjeta');
+    } finally {
+      setAccionTarjeta(null);
+    }
+  };
+
+  const entregarTarjeta = async (e) => {
+    e.preventDefault();
+    setError('');
+    setEntregando(true);
+    try {
+      const cuerpo = { dni: nuevaTarjeta.dni.trim(), marca: nuevaTarjeta.marca };
+      if (nuevaTarjeta.limite.trim()) cuerpo.limite_compra = nuevaTarjeta.limite.trim();
+      await api.post('/admin/tarjetas', cuerpo);
+      setNuevaTarjeta({ dni: '', marca: 'VISA', limite: '' });
+      cargarTarjetas();
+    } catch (err) {
+      setError(err.response?.data?.error || 'No se pudo entregar la tarjeta');
+    } finally {
+      setEntregando(false);
     }
   };
 
@@ -433,6 +494,30 @@ export default function AdminPage() {
 
       <h3 className="section-title anim-up-3">Tarjetas de crédito</h3>
 
+      <form className="anim-up-3" onSubmit={entregarTarjeta} style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 14 }}>
+        <div style={{ flex: '1 1 150px' }}>
+          <label className="label" htmlFor="adm-tarjeta-dni">DNI del titular</label>
+          <input id="adm-tarjeta-dni" className="input" inputMode="numeric" placeholder="30111222" required
+            value={nuevaTarjeta.dni} onChange={(e) => setNuevaTarjeta({ ...nuevaTarjeta, dni: e.target.value })} />
+        </div>
+        <div style={{ flex: '0 1 150px' }}>
+          <label className="label" htmlFor="adm-tarjeta-marca">Marca</label>
+          <select id="adm-tarjeta-marca" className="input"
+            value={nuevaTarjeta.marca} onChange={(e) => setNuevaTarjeta({ ...nuevaTarjeta, marca: e.target.value })}>
+            <option value="VISA">Visa</option>
+            <option value="MASTERCARD">Mastercard</option>
+          </select>
+        </div>
+        <div style={{ flex: '1 1 150px' }}>
+          <label className="label" htmlFor="adm-tarjeta-limite">Límite (opcional)</label>
+          <input id="adm-tarjeta-limite" className="input" inputMode="decimal" placeholder="Según situación"
+            value={nuevaTarjeta.limite} onChange={(e) => setNuevaTarjeta({ ...nuevaTarjeta, limite: e.target.value })} />
+        </div>
+        <button className="btn-outline-green" type="submit" disabled={entregando}>
+          {entregando ? 'Entregando…' : 'Entregar tarjeta'}
+        </button>
+      </form>
+
       {cargandoTarjetas && (
         <div className="loading-center">
           <div className="spinner" />
@@ -463,6 +548,16 @@ export default function AdminPage() {
               </div>
               <div className="tx-right">
                 <span className={`tx-badge ${badge}`}>{ESTADO_TARJETA_LABEL[t.estado] || t.estado}</span>
+              </div>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', width: '100%' }}>
+                <button className="btn-ghost" disabled={accionTarjeta === t.id_tarjeta} onClick={() => cambiarLimiteTarjeta(t)}>
+                  Cambiar límite
+                </button>
+                {t.estado !== 'CERRADO' && (
+                  <button className="btn-ghost" style={{ color: 'var(--red)' }} disabled={accionTarjeta === t.id_tarjeta} onClick={() => quitarTarjeta(t)}>
+                    Quitar tarjeta
+                  </button>
+                )}
               </div>
             </div>
           );

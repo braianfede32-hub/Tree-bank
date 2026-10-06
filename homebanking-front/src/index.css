@@ -297,7 +297,7 @@ body, .card, .tx-item, .stat-card, .row-card, .input, .amount-box, .chip,
 /* ════════════════════════════════════════════════════════════════
    SHELL — sidebar + contenido
    ════════════════════════════════════════════════════════════════ */
-.app-shell { display: flex; min-height: 100vh; }
+.app-shell { display: flex; min-height: 100vh; overflow-x: clip; }
 
 .sidebar {
   width: var(--sidebar-w);
@@ -403,7 +403,9 @@ body, .card, .tx-item, .stat-card, .row-card, .input, .amount-box, .chip,
   margin-left: var(--sidebar-w);
   padding: 34px clamp(20px, 4vw, 56px) 64px;
   width: calc(100% - var(--sidebar-w));
+  min-width: 0;
   position: relative;
+  overflow-x: clip;
 }
 .main-content > :not(.app-blob) { max-width: var(--content-max); margin-inline: auto; }
 
@@ -430,6 +432,12 @@ body, .card, .tx-item, .stat-card, .row-card, .input, .amount-box, .chip,
   text-wrap: balance;
 }
 .page-sub { color: var(--text-2); font-size: 14.5px; margin-bottom: 28px; }
+
+/* QR para abrir la app en el celular */
+.qr-celular { margin-top: 18px; display: flex; align-items: center; gap: 16px; }
+.auth-brand .qr-celular { margin-top: 28px; max-width: 420px; }
+.qr-celular-img { border-radius: 10px; background: #fff; flex-shrink: 0; }
+.qr-celular-txt { min-width: 0; }
 
 /* Topbar y bottom-nav (solo mobile) */
 .topbar { display: none; }
@@ -808,7 +816,7 @@ body, .card, .tx-item, .stat-card, .row-card, .input, .amount-box, .chip,
 /* Acciones rápidas */
 .quick-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
   gap: 14px;
 }
 .quick-action {
@@ -1940,7 +1948,7 @@ input[type='number'] { -moz-appearance: textfield; appearance: textfield; }
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--chrome-border);
   }
-  .topbar-brand { display: flex; align-items: center; gap: 9px; }
+  .topbar-brand { display: flex; align-items: center; gap: 9px; white-space: nowrap; }
   .topbar-brand-txt {
     font-family: var(--font-display);
     font-weight: 800; font-size: 15px; letter-spacing: 0.05em;
@@ -1985,7 +1993,8 @@ input[type='number'] { -moz-appearance: textfield; appearance: textfield; }
     background: var(--grad-brand);
   }
 
-  .quick-grid { grid-template-columns: repeat(2, 1fr); gap: 11px; }
+  .solo-desktop { display: none !important; }
+  .quick-grid { grid-template-columns: repeat(3, 1fr); gap: 11px; }
   .stats-grid { grid-template-columns: 1fr; gap: 10px; }
   .card { padding: 19px; }
   .balance-card { padding: 26px 20px; }

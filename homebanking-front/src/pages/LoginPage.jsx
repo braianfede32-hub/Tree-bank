@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import TreeBankLogo from '../components/TreeBankLogo';
 import Icon from '../components/Icon';
+import QrCelular from '../components/QrCelular';
 import api from '../api/api';
 import ThemeToggle from '../components/ThemeToggle';
 
@@ -78,6 +79,8 @@ export default function LoginPage() {
               <p>Plantamos un árbol por cada cuenta activa. Tu plata, con impacto.</p>
             </div>
           </div>
+
+          <QrCelular />
         </div>
 
         {/* ── Tarjeta de login ── */}

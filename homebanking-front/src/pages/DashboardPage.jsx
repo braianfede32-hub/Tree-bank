@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import AppLayout from '../components/AppLayout';
 import Icon from '../components/Icon';
+import QrCelular from '../components/QrCelular';
 import GananciaInversionesItem, { useGananciaInversionesArs } from '../components/GananciaInversiones';
 import api from '../api/api';
 
@@ -189,8 +190,8 @@ export default function DashboardPage() {
       </div>
 
       <div className="dash-panel anim-up-3" style={{ marginTop: 18, display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-        <div className="quick-action-icon" style={{ flexShrink: 0 }}>
-          <Icon name="card" size={22} />
+        <div style={{ flexShrink: 0, background: '#fff', borderRadius: 12, padding: '8px 12px', border: '1px solid var(--border)', display: 'flex' }}>
+          <img src="/mercadolibre.png" alt="Mercado Libre" width="100" height="25" style={{ display: 'block', maxWidth: '100%', height: 'auto' }} />
         </div>
         <div style={{ flex: 1, minWidth: 200 }}>
           <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 3 }}>Mercado Libre</p>
@@ -208,6 +209,8 @@ export default function DashboardPage() {
           Ir a Mercado Libre
         </a>
       </div>
+
+      <QrCelular className="solo-desktop anim-up-3" />
     </AppLayout>
   );
 }

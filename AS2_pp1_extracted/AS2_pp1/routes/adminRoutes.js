@@ -28,6 +28,15 @@ router.put('/admin/prestamos/:idPrestamo/mora', verificarToken, verificarAdmin, 
 // GET /api/admin/tarjetas - Lista todas las tarjetas de credito del banco
 router.get('/admin/tarjetas', verificarToken, verificarAdmin, adminController.listarTarjetas);
 
+// POST /api/admin/tarjetas - Entrega una tarjeta a una persona (por DNI)
+router.post('/admin/tarjetas', verificarToken, verificarAdmin, adminController.darTarjeta);
+
+// PUT /api/admin/tarjetas/:idTarjeta/limite - Fija el limite de compra (aunque este bloqueada)
+router.put('/admin/tarjetas/:idTarjeta/limite', verificarToken, verificarAdmin, adminController.cambiarLimiteTarjeta);
+
+// DELETE /api/admin/tarjetas/:idTarjeta - Quita (cierra) una tarjeta
+router.delete('/admin/tarjetas/:idTarjeta', verificarToken, verificarAdmin, adminController.quitarTarjeta);
+
 // GET /api/admin/seguros - Lista todas las polizas del banco
 router.get('/admin/seguros', verificarToken, verificarAdmin, adminController.listarSeguros);
 
