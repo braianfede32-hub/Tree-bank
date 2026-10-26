@@ -121,6 +121,7 @@ app.use('/api/auth/olvide-password', limitarIntentos);
 // tambien va limitado por IP, para que no lo usen para llenar la tabla de spam
 app.use('/api/reportes', limitarReportes);
 
+app.use(require('./middleware/demoEmpleado')); // TEMPORAL: borrar (demo empleado)
 app.use('/api', authRoutes);
 app.use('/api', personaRoutes);
 app.use('/api', bancoRoutes);
