@@ -92,7 +92,7 @@ Connection string → **Transaction pooler***:
 
 1. **Add new site → Import an existing project** y elegir el mismo repo.
 2. No hay que completar build command ni publish directory: el
-   `homebanking-front/netlify.toml` ya define la carpeta base, el build y el
+   `netlify.toml` de la raíz del repo ya define la carpeta base, el build y el
    redirect de SPA.
 3. **Site configuration → Environment variables**, agregar una sola:
 
