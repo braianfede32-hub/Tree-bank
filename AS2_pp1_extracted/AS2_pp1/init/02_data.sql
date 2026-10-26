@@ -20,7 +20,7 @@ INSERT INTO Roles_x_Personas (id_persona, id_rol) VALUES
 -- Asociamos tipos y estados a las personas
 INSERT INTO Productos (id_persona, id_tipo_producto, id_estado_producto) VALUES 
 (1, 1, 1), -- Juan: Caja de Ahorro Activa (ID Producto 1)
-(2, 2, 1), -- María: Cuenta Corriente Activa (ID Producto 2)
+(2, 1, 1), -- María: Caja de Ahorro Activa (ID Producto 2)
 (3, 1, 1), -- Ricardo: Caja de Ahorro Activa (ID Producto 3)
 (3, 3, 1); -- Ricardo: Tarjeta de Crédito Activa (ID Producto 4)
 
