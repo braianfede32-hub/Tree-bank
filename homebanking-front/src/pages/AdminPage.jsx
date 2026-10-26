@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import AppLayout from '../components/AppLayout';
 import Icon from '../components/Icon';
+import { useAuth } from '../context/AuthContext';
 import api from '../api/api';
 
 const ESTADO_PRESTAMO_LABEL = { ACTIVO: 'Al día', CERRADO: 'Pagado', BLOQUEADO: 'En mora' };
@@ -8,6 +9,9 @@ const ESTADO_TARJETA_LABEL = { ACTIVO: 'Activa', CERRADO: 'Cerrada', BLOQUEADO: 
 const ESTADO_SEGURO_LABEL = { ACTIVO: 'Vigente', CERRADO: 'Cancelada' };
 
 export default function AdminPage() {
+  // El empleado (soporte) ve todo pero no modifica nada, salvo atender reportes.
+  // El backend lo hace cumplir igual (verificarAdmin): esto solo esconde los botones.
+  const { esAdmin } = useAuth();
   const [cuentas, setCuentas]       = useState([]);
   const [cargando, setCargando]     = useState(true);
   const [error, setError]           = useState('');
@@ -251,8 +255,12 @@ export default function AdminPage() {
   return (
     <AppLayout>
       <div className="anim-up">
-        <h1 className="page-title">Panel de administrador</h1>
-        <p className="page-sub">Gestioná el estado de las cuentas de todos los clientes.</p>
+        <h1 className="page-title">{esAdmin ? 'Panel de administrador' : 'Panel de soporte'}</h1>
+        <p className="page-sub">
+          {esAdmin
+            ? 'Gestioná el estado de las cuentas de todos los clientes.'
+            : 'Modo consulta: podés ver las cuentas, préstamos, tarjetas y seguros, y atender los reportes de problemas.'}
+        </p>
       </div>
 
       <div className="stats-grid anim-up-1">
@@ -390,6 +398,7 @@ export default function AdminPage() {
               <p className="tx-amount" style={{ color: 'var(--text)' }}>$ {fmt(c.saldo)}</p>
               <span className={`tx-badge ${badgeClase(c.estado)}`}>{c.estado}</span>
             </div>
+            {esAdmin && (
             <div style={{ display: 'flex', gap: 8, width: '100%', justifyContent: 'flex-end', marginTop: 10 }}>
               {c.estado !== 'ACTIVO' && (
                 <button
@@ -429,6 +438,7 @@ export default function AdminPage() {
                 Eliminar para siempre
               </button>
             </div>
+            )}
           </div>
         ))}
       </div>
@@ -475,7 +485,7 @@ export default function AdminPage() {
                 <p className="tx-amount" style={{ color: 'var(--text)' }}>$ {fmt(p.monto)}</p>
                 <span className={`tx-badge ${badge}`}>{ESTADO_PRESTAMO_LABEL[p.estado] || p.estado}</span>
               </div>
-              {p.estado === 'ACTIVO' && (
+              {esAdmin && p.estado === 'ACTIVO' && (
                 <div style={{ display: 'flex', gap: 8, width: '100%', justifyContent: 'flex-end', marginTop: 10 }}>
                   <button
                     className="btn-ghost"
@@ -494,6 +504,7 @@ export default function AdminPage() {
 
       <h3 className="section-title anim-up-3">Tarjetas de crédito</h3>
 
+      {esAdmin && (
       <form className="anim-up-3" onSubmit={entregarTarjeta} style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 14 }}>
         <div style={{ flex: '1 1 150px' }}>
           <label className="label" htmlFor="adm-tarjeta-dni">DNI del titular</label>
@@ -517,6 +528,7 @@ export default function AdminPage() {
           {entregando ? 'Entregando…' : 'Entregar tarjeta'}
         </button>
       </form>
+      )}
 
       {cargandoTarjetas && (
         <div className="loading-center">
@@ -549,6 +561,7 @@ export default function AdminPage() {
               <div className="tx-right">
                 <span className={`tx-badge ${badge}`}>{ESTADO_TARJETA_LABEL[t.estado] || t.estado}</span>
               </div>
+              {esAdmin && (
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', width: '100%' }}>
                 <button className="btn-ghost" disabled={accionTarjeta === t.id_tarjeta} onClick={() => cambiarLimiteTarjeta(t)}>
                   Cambiar límite
@@ -559,6 +572,7 @@ export default function AdminPage() {
                   </button>
                 )}
               </div>
+              )}
             </div>
           );
         })}

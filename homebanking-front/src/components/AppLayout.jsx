@@ -24,18 +24,18 @@ const NAV_ITEMS_CLIENTE_MOBILE = [
   { to: '/perfil',         icon: 'user',    label: 'Mi perfil' },
 ];
 
-// Los administradores solo gestionan cuentas, no operan una cuenta propia
+// Admins y empleados solo gestionan cuentas, no operan una cuenta propia
 const NAV_ITEMS_ADMIN = [
   { to: '/admin', icon: 'shield', label: 'Cuentas' },
 ];
 
 // Shell compartido: sidebar en desktop, topbar + bottom-nav en mobile
 export default function AppLayout({ children }) {
-  const { usuario, logout, foto } = useAuth();
+  const { usuario, logout, foto, esStaff, esAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const NAV_ITEMS = usuario?.esAdmin ? NAV_ITEMS_ADMIN : NAV_ITEMS_CLIENTE;
-  const NAV_ITEMS_MOBILE = usuario?.esAdmin ? NAV_ITEMS_ADMIN : NAV_ITEMS_CLIENTE_MOBILE;
+  const NAV_ITEMS = esStaff ? NAV_ITEMS_ADMIN : NAV_ITEMS_CLIENTE;
+  const NAV_ITEMS_MOBILE = esStaff ? NAV_ITEMS_ADMIN : NAV_ITEMS_CLIENTE_MOBILE;
 
   const handleLogout = () => {
     logout();
@@ -91,7 +91,7 @@ export default function AppLayout({ children }) {
               <div className="sidebar-user-name">
                 {usuario?.nombre} {usuario?.apellido || ''}
               </div>
-              <div className="sidebar-user-dni">{usuario?.esAdmin ? 'Administrador' : `DNI ${usuario?.dni}`}</div>
+              <div className="sidebar-user-dni">{esAdmin ? 'Administrador' : esStaff ? 'Empleado · Soporte' : `DNI ${usuario?.dni}`}</div>
             </div>
             <button className="btn-icon-ghost" onClick={handleLogout} title="Cerrar sesión">
               <Icon name="logout" size={17} />

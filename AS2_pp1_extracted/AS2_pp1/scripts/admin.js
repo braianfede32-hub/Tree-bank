@@ -1,15 +1,19 @@
 #!/usr/bin/env node
 // ============================================================
-// scripts/admin.js — GESTION DE ADMINISTRADORES
+// scripts/admin.js — GESTION DE ADMINISTRADORES Y EMPLEADOS
 // Herramienta de linea de comandos para el back-office del banco.
 // El rol ADMIN no se puede asignar desde la API (a proposito: si existiera
 // un endpoint para darse ADMIN a uno mismo, seria el agujero mas grande
 // del sistema). Se hace desde aca, con acceso al servidor.
+// Lo mismo vale para el rol EMPLEADO (soporte, solo consulta).
 //
 // Uso:
 //   node scripts/admin.js listar
 //   node scripts/admin.js promover <dni>
 //   node scripts/admin.js quitar   <dni>
+//   node scripts/admin.js listar-empleados
+//   node scripts/admin.js contratar <dni>
+//   node scripts/admin.js despedir  <dni>
 //   node scripts/admin.js password <dni> <password-nueva>
 //   node scripts/admin.js limpiar-passwords
 // ============================================================
@@ -36,19 +40,23 @@ const buscarPersona = async (dni) => {
     return rows[0];
 };
 
-// Devuelve el id del rol ADMIN, creandolo si todavia no existe
-const idRolAdmin = async () => {
-    const existente = await db.query("SELECT id_rol FROM roles WHERE nombre_rol = 'ADMIN'");
+// Devuelve el id de un rol, creandolo si todavia no existe
+const idRol = async (nombre, descripcion) => {
+    const existente = await db.query('SELECT id_rol FROM roles WHERE nombre_rol = $1', [nombre]);
     if (existente.rows.length > 0) return existente.rows[0].id_rol;
 
     const creado = await db.query(
-        `INSERT INTO roles (nombre_rol, descripcion)
-         VALUES ('ADMIN', 'Administrador del sistema: gestiona las cuentas de todos los clientes')
-         RETURNING id_rol`
+        'INSERT INTO roles (nombre_rol, descripcion) VALUES ($1, $2) RETURNING id_rol',
+        [nombre, descripcion]
     );
-    ok('Rol ADMIN creado (no existia en la base)');
+    ok(`Rol ${nombre} creado (no existia en la base)`);
     return creado.rows[0].id_rol;
 };
+
+const idRolAdmin = () =>
+    idRol('ADMIN', 'Administrador del sistema: gestiona las cuentas de todos los clientes');
+const idRolEmpleado = () =>
+    idRol('EMPLEADO', 'Soporte tecnico: consulta cuentas y atiende reportes, sin permisos para modificar ni eliminar');
 
 // ---- Comandos ----
 
@@ -75,11 +83,11 @@ const promover = async (dni) => {
     const persona = await buscarPersona(dni);
     if (!persona) return error(`No existe ninguna persona con DNI ${dni}`);
 
-    const idRol = await idRolAdmin();
+    const id = await idRolAdmin();
     await db.query(
         `INSERT INTO roles_x_personas (id_persona, id_rol) VALUES ($1, $2)
          ON CONFLICT (id_persona, id_rol) DO NOTHING`,
-        [persona.id, idRol]
+        [persona.id, id]
     );
 
     ok(`${persona.nombre} ${persona.apellido} (DNI ${persona.dni}) ahora es ADMIN`);
@@ -112,6 +120,59 @@ const quitar = async (dni) => {
     );
     if (res.rowCount === 0) return error(`${persona.nombre} ${persona.apellido} no era ADMIN`);
     ok(`Rol ADMIN quitado a ${persona.nombre} ${persona.apellido} (DNI ${persona.dni})`);
+};
+
+const listarEmpleados = async () => {
+    const { rows } = await db.query(
+        `SELECT p.id, p.nombre, p.apellido, p.dni,
+                (p.password_hash IS NOT NULL) AS tiene_password
+         FROM personas p
+         JOIN roles_x_personas rp ON rp.id_persona = p.id
+         JOIN roles r ON r.id_rol = rp.id_rol
+         WHERE r.nombre_rol = 'EMPLEADO'
+         ORDER BY p.id`
+    );
+    if (rows.length === 0) {
+        console.log('No hay ningun EMPLEADO cargado. Crealo con:  node scripts/admin.js contratar <dni>');
+    } else {
+        console.log(`Empleados (${rows.length}):`);
+        console.table(rows);
+    }
+};
+
+const contratar = async (dni) => {
+    if (!dni) return error('Falta el DNI.  Uso: node scripts/admin.js contratar <dni>');
+    const persona = await buscarPersona(dni);
+    if (!persona) return error(`No existe ninguna persona con DNI ${dni}`);
+
+    const id = await idRolEmpleado();
+    await db.query(
+        `INSERT INTO roles_x_personas (id_persona, id_rol) VALUES ($1, $2)
+         ON CONFLICT (id_persona, id_rol) DO NOTHING`,
+        [persona.id, id]
+    );
+
+    ok(`${persona.nombre} ${persona.apellido} (DNI ${persona.dni}) ahora es EMPLEADO (solo consulta)`);
+    if (!persona.password_hash) {
+        console.log('\x1b[33m⚠ Esa persona todavia no tiene contrasena. Asignale una con:\x1b[0m');
+        console.log(`   node scripts/admin.js password ${persona.dni} <password-nueva>`);
+    } else {
+        console.log('Ya tiene contrasena: puede entrar por /login y va a caer en /admin en modo consulta.');
+    }
+};
+
+const despedir = async (dni) => {
+    if (!dni) return error('Falta el DNI.  Uso: node scripts/admin.js despedir <dni>');
+    const persona = await buscarPersona(dni);
+    if (!persona) return error(`No existe ninguna persona con DNI ${dni}`);
+
+    const res = await db.query(
+        `DELETE FROM roles_x_personas WHERE id_persona = $1
+         AND id_rol = (SELECT id_rol FROM roles WHERE nombre_rol = 'EMPLEADO')`,
+        [persona.id]
+    );
+    if (res.rowCount === 0) return error(`${persona.nombre} ${persona.apellido} no era EMPLEADO`);
+    ok(`Rol EMPLEADO quitado a ${persona.nombre} ${persona.apellido} (DNI ${persona.dni})`);
 };
 
 const password = async (dni, nueva) => {
@@ -155,6 +216,9 @@ const limpiarPasswords = async () => {
             case 'listar':             await listar(); break;
             case 'promover':           await promover(args[0]); break;
             case 'quitar':             await quitar(args[0]); break;
+            case 'listar-empleados':   await listarEmpleados(); break;
+            case 'contratar':          await contratar(args[0]); break;
+            case 'despedir':           await despedir(args[0]); break;
             case 'password':           await password(args[0], args[1]); break;
             case 'limpiar-passwords':  await limpiarPasswords(); break;
             default:
@@ -163,6 +227,9 @@ const limpiarPasswords = async () => {
   node scripts/admin.js listar                        Lista los ADMIN actuales
   node scripts/admin.js promover <dni>                Le da el rol ADMIN a una persona
   node scripts/admin.js quitar <dni>                  Le quita el rol ADMIN
+  node scripts/admin.js listar-empleados              Lista los EMPLEADO actuales
+  node scripts/admin.js contratar <dni>               Le da el rol EMPLEADO (solo consulta)
+  node scripts/admin.js despedir <dni>                Le quita el rol EMPLEADO
   node scripts/admin.js password <dni> <nueva>        Define/resetea una contrasena
   node scripts/admin.js limpiar-passwords             Borra credenciales en texto plano
 `);

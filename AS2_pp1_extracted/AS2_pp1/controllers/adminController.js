@@ -1,6 +1,7 @@
 // ============================================================
 // controllers/adminController.js — PANEL DE ADMINISTRADOR
-// Solo lo pueden usar personas con el rol ADMIN (ver middleware verificarAdmin).
+// Los listados los pueden ver ADMIN y EMPLEADO (verificarStaff); todo lo que
+// modifica o borra es solo del ADMIN (verificarAdmin).
 // Permite ver todas las cuentas del banco y cambiar su estado
 // (bloquear, reactivar o cerrar una cuenta).
 // ============================================================

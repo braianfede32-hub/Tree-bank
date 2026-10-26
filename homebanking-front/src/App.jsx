@@ -32,24 +32,24 @@ function Cargando() {
 }
 
 // Ruta protegida: si no esta logueado, manda al login.
-// Los administradores no operan cuentas propias, asi que van directo al panel admin.
+// Admins y empleados no operan cuentas propias, asi que van directo al panel.
 function RutaPrivada({ children }) {
-  const { usuario, cargando } = useAuth();
+  const { usuario, cargando, esStaff } = useAuth();
   if (cargando) return <Cargando />;
   if (!usuario) return <Navigate to="/login" />;
-  if (usuario.esAdmin) return <Navigate to="/admin" />;
+  if (esStaff) return <Navigate to="/admin" />;
   return children;
 }
 
-// Ruta exclusiva del panel de administrador
+// Ruta exclusiva del panel (admin y empleado; el empleado lo ve en modo consulta)
 function RutaAdmin({ children }) {
-  const { usuario, cargando } = useAuth();
+  const { usuario, cargando, esStaff } = useAuth();
   if (cargando) return <Cargando />;
   if (!usuario) return <Navigate to="/login" />;
-  return usuario.esAdmin ? children : <Navigate to="/dashboard" />;
+  return esStaff ? children : <Navigate to="/dashboard" />;
 }
 
-// Ruta que requiere estar logueado, sin importar el rol (clientes Y admins).
+// Ruta que requiere estar logueado, sin importar el rol (clientes, admins y empleados).
 // A diferencia de RutaPrivada, no redirige a un admin a /admin: la usan
 // pantallas que tiene sentido que use cualquiera, como reportar un problema.
 function RutaAutenticada({ children }) {
@@ -60,8 +60,8 @@ function RutaAutenticada({ children }) {
 }
 
 function AppRoutes() {
-  const { usuario, splash, setSplash } = useAuth();
-  const inicio = usuario ? (usuario.esAdmin ? '/admin' : '/dashboard') : '/login';
+  const { usuario, splash, setSplash, esStaff } = useAuth();
+  const inicio = usuario ? (esStaff ? '/admin' : '/dashboard') : '/login';
   return (
     <>
       {/* Splash de bienvenida: al ingresar y al volver a abrir la app */}

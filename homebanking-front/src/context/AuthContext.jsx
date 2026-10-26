@@ -57,8 +57,14 @@ export function AuthProvider({ children }) {
     setUsuario(null);
   };
 
+  // ADMIN es el dueno del banco; EMPLEADO es soporte (mismo panel, solo consulta).
+  // esStaff = cualquiera de los dos: es quien entra al panel en /admin.
+  const esAdmin = !!usuario?.esAdmin;
+  const esEmpleado = !!usuario?.esEmpleado;
+  const esStaff = esAdmin || esEmpleado;
+
   return (
-    <AuthContext.Provider value={{ usuario, login, logout, cargando, splash, setSplash, foto, setFoto }}>
+    <AuthContext.Provider value={{ usuario, login, logout, cargando, splash, setSplash, foto, setFoto, esAdmin, esEmpleado, esStaff }}>
       {children}
     </AuthContext.Provider>
   );

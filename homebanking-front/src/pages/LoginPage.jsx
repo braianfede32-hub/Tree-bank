@@ -32,7 +32,7 @@ export default function LoginPage() {
       const res = await api.post('/auth/login', { dni, password });
       recordarDni();
       login(res.data.token, res.data.usuario);
-      navigate(res.data.usuario?.esAdmin ? '/admin' : '/dashboard');
+      navigate(res.data.usuario?.esAdmin || res.data.usuario?.esEmpleado ? '/admin' : '/dashboard');
     } catch (err) {
       setError(err.response?.data?.error || 'DNI o contraseña incorrectos');
     } finally {

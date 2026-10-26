@@ -61,4 +61,16 @@ const verificarAdmin = (req, res, next) => {
     next();
 };
 
-module.exports = { verificarToken, verificarAdmin };
+// verificarStaff — deja pasar a ADMIN (dueño del banco) y a EMPLEADO (soporte).
+// Se usa en las rutas de solo lectura del panel: el empleado puede mirar
+// cuentas, préstamos, tarjetas y seguros, pero cualquier cambio sigue
+// requiriendo verificarAdmin.
+const verificarStaff = (req, res, next) => {
+    const roles = req.usuario?.roles || [];
+    if (!roles.includes('ADMIN') && !roles.includes('EMPLEADO')) {
+        return res.status(403).json({ error: 'Acceso restringido al personal del banco.' });
+    }
+    next();
+};
+
+module.exports = { verificarToken, verificarAdmin, verificarStaff };

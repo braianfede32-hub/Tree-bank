@@ -151,7 +151,7 @@ cada 10 minutos: mantiene el servicio despierto y los cron jobs corriendo.
 
 ## Roles
 
-El sistema tiene dos tipos de usuario, guardados en las tablas `Roles` / `Roles_x_Personas`:
+El sistema tiene tres tipos de usuario, guardados en las tablas `Roles` / `Roles_x_Personas`:
 
 - **Cliente** (por defecto): opera su propia cuenta (transferencias, depósitos, historial, perfil).
 - **ADMIN**: no opera cuentas propias, entra directo a un panel (`/admin`) donde ve **todas** las
@@ -163,6 +163,14 @@ El sistema tiene dos tipos de usuario, guardados en las tablas `Roles` / `Roles_
     tiene tarjetas de crédito activas (préstamos pendientes); si no, el backend rechaza el pedido
     con el motivo.
 
+- **EMPLEADO** (soporte técnico): entra al mismo panel (`/admin`) que el ADMIN, pero en **modo
+  consulta**. Puede ver todas las cuentas, préstamos, tarjetas y seguros, y atender los reportes
+  de problemas (marcarlos resueltos o reabrirlos). **No** puede bloquear, cerrar ni eliminar
+  cuentas, marcar mora, ni entregar, quitar o cambiar el límite de tarjetas: esos endpoints
+  (`PUT/POST/DELETE /api/admin/*`) responden 403. El ADMIN es el dueño del banco y conserva todo.
+  Los GET del panel usan `verificarStaff` (ADMIN o EMPLEADO) y el resto `verificarAdmin`; en el
+  front los botones de modificación solo se muestran al ADMIN.
+
 El rol se calcula en el login (`POST /api/auth/login`) y viaja dentro del JWT, así el backend no
 necesita consultar la base de datos en cada pedido protegido (`middleware/authMiddleware.js` →
 `verificarAdmin`).
@@ -173,13 +181,20 @@ DNI de ejemplo por el de la persona que va a administrar el banco.
 
 Para el día a día (dar o quitar el rol a alguien, o resetear una contraseña) es más simple usar
 `scripts/admin.js` desde el servidor — no hay ningún endpoint de la API que pueda otorgar el rol
-ADMIN, a propósito: sería el agujero de seguridad más grande del sistema.
+ADMIN, a propósito: sería el agujero de seguridad más grande del sistema. Lo mismo para EMPLEADO.
+
+Para habilitar el rol EMPLEADO en Supabase, correr una vez
+`AS2_pp1_extracted/AS2_pp1/init/14_empleado_role.sql` (crea el rol y se lo asigna al DNI que
+pongas en el script).
 
 ```bash
 cd AS2_pp1_extracted/AS2_pp1
 node scripts/admin.js listar                    # lista los ADMIN actuales
 node scripts/admin.js promover <dni>             # le da el rol ADMIN a una persona
 node scripts/admin.js quitar <dni>               # le quita el rol (no deja el banco sin ninguno)
+node scripts/admin.js listar-empleados           # lista los EMPLEADO actuales
+node scripts/admin.js contratar <dni>            # le da el rol EMPLEADO (solo consulta)
+node scripts/admin.js despedir <dni>             # le quita el rol EMPLEADO
 node scripts/admin.js password <dni> <nueva>     # define o resetea una contraseña
 ```
 
