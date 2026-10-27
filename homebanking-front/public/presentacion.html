@@ -228,6 +228,60 @@ body { margin: 0; overflow: hidden; background: #020805; color: var(--on-dark); 
 .cover-lead { position: absolute; left: 0; right: 0; top: 118px; text-align: center; font-family: var(--font-brand); font-size: 22px; color: #fff; text-shadow: 0 2px 20px rgba(0, 0, 0, .6); animation: fade 1.4s ease 1.8s both; }
 .cover-lead span { color: var(--gold-soft); }
 
+
+/* Transición entre diapositivas: cortina verde con borde dorado */
+.wipe { position: absolute; inset: 0; z-index: 20; pointer-events: none; background: linear-gradient(120deg, #0a2117, #0f3a2a); clip-path: inset(0 0 0 0); animation: wipe .85s cubic-bezier(.7, 0, .2, 1) .05s forwards; display: grid; place-items: center; }
+.wipe::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 6px; background: linear-gradient(180deg, #ffe2a8, #f5c451); box-shadow: 0 0 30px 8px rgba(245, 196, 81, .55); animation: wipeedge .85s cubic-bezier(.7, 0, .2, 1) .05s forwards; }
+@keyframes wipe { to { clip-path: inset(0 0 0 100%); } }
+@keyframes wipeedge { to { left: calc(100% - 6px); opacity: 0; } }
+.wipe-mark { width: 90px; height: 90px; opacity: 0; animation: wipemark .7s ease both; }
+.wipe-mark svg { width: 100%; height: 100%; }
+@keyframes wipemark { 0% { opacity: 0; transform: scale(.6); } 35% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.3); } }
+.tilt3d { transition: transform .25s ease-out, border-color .4s, box-shadow .4s !important; will-change: transform; }
+
+/* Badge de demo */
+.demo-badge { position: absolute; top: 74px; right: 110px; padding: 8px 16px; border-radius: 999px; background: rgba(245, 196, 81, .1); border: 1px solid rgba(245, 196, 81, .35); animation: inUp .8s ease .6s both; }
+.demo-badge .ant-badge-status-text { color: var(--gold-soft) !important; font-weight: 600; font-size: 15px; letter-spacing: .04em; }
+
+/* 10: probado y listo */
+.proof { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+.proof-tile { position: relative; overflow: hidden; border-radius: 24px; padding: 26px 28px 30px; background: linear-gradient(160deg, rgba(17, 51, 36, .8), rgba(8, 28, 19, .7)); border: 1px solid var(--line); }
+.proof-tile::before { content: ""; position: absolute; inset: 0; background: radial-gradient(300px circle at 100% 0%, rgba(245, 196, 81, .14), transparent 60%); }
+.proof-ico { position: absolute; right: 24px; top: 24px; font-size: 26px; color: var(--gold); opacity: .9; }
+.proof-num { font-family: var(--font-display); font-size: 92px; line-height: 1; color: #fff; display: flex; align-items: flex-end; }
+.proof-num .suf { font-size: 44px; color: var(--mint); -webkit-text-fill-color: var(--mint); margin-left: 4px; margin-bottom: 8px; }
+.odo { display: inline-flex; color: #fff; -webkit-text-fill-color: #fff; }
+.odo-col { display: inline-block; height: 1em; overflow: hidden; }
+.odo-strip { display: flex; flex-direction: column; transition: transform 1.6s cubic-bezier(.2, .9, .1, 1); }
+.odo-strip span { height: 1em; line-height: 1; display: block; }
+.proof-t { margin-top: 10px; font-family: var(--font-brand); font-weight: 700; font-size: 21px; color: #fff; }
+.proof-d { margin-top: 4px; font-size: 15px; color: var(--on-dark-soft); }
+.proof-bar { margin-top: 18px; height: 4px; border-radius: 4px; background: rgba(167, 243, 208, .12); overflow: hidden; }
+.proof-bar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--gold), var(--mint)); transform-origin: left; animation: bar 1.4s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* 11: para el instituto */
+.road { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 44px; padding-top: 36px; }
+.road-line { position: absolute; left: 0; right: 0; top: 0; width: 100%; height: 40px; }
+.road-line path { fill: none; stroke: rgba(167, 243, 208, .18); stroke-width: 3; }
+.road-line .road-glow { stroke: var(--gold); stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: roaddraw 1.8s cubic-bezier(.4, 0, .2, 1) .4s forwards; filter: drop-shadow(0 0 6px rgba(245, 196, 81, .7)); }
+@keyframes roaddraw { to { stroke-dashoffset: 0; } }
+.road-step { position: relative; padding-top: 18px; animation: inUp .8s cubic-bezier(.2, .8, .2, 1) both; }
+.road-dot { position: absolute; top: -22px; left: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 6px rgba(245, 196, 81, .18), 0 0 18px rgba(245, 196, 81, .8); animation: dotpulse 2.4s ease-in-out infinite; }
+@keyframes dotpulse { 50% { box-shadow: 0 0 0 12px rgba(245, 196, 81, .06), 0 0 24px rgba(245, 196, 81, .9); } }
+.road-step b { font-family: var(--font-display); font-weight: 400; font-size: 34px; color: var(--gold-soft); letter-spacing: .02em; }
+.road-step h3 { margin: 4px 0 6px; font-family: var(--font-brand); font-size: 23px; color: #fff; }
+.road-step p { margin: 0; font-size: 16px; line-height: 1.5; color: var(--on-dark-soft); max-width: 34ch; }
+.vals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+.val { display: flex; gap: 14px; align-items: flex-start; padding: 20px; border-radius: 20px; background: rgba(17, 51, 36, .62); border: 1px solid var(--line); }
+.val .ico { margin: 0; flex: none; width: 46px; height: 46px; font-size: 20px; }
+.val h3 { margin: 0 0 4px; font-family: var(--font-brand); font-size: 18px; color: #fff; }
+.val p { margin: 0; font-size: 14px; line-height: 1.45; color: var(--on-dark-soft); }
+
+/* Brillo que recorre las palabras destacadas de los títulos */
+.title .gold, .title .mint { background-size: 220% 100%; animation: titleshine 5s ease-in-out 1.2s infinite; }
+@keyframes titleshine { 0%, 100% { background-position: 0% 0; } 50% { background-position: 100% 0; } }
+
 /* Controles */
 .controls { position: fixed; z-index: 30; left: 50%; bottom: max(14px, env(safe-area-inset-bottom, 0px)); translate: -50% 0; display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 999px; background: rgba(4, 16, 10, .72); border: 1px solid var(--line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); opacity: .25; transition: opacity .3s; }
 .controls:hover, .controls:focus-within { opacity: 1; }
@@ -242,7 +296,6 @@ body { margin: 0; overflow: hidden; background: #020805; color: var(--on-dark); 
 </style>
 </head>
 <body>
-
 
 <div id="root"></div>
 
@@ -509,7 +562,7 @@ function Bg() {
   </svg></div>`;
 }
 
-function Foot({ n }) { return html`<div className="foot"><span><b>Tree Bank</b> · Prácticas Profesionalizantes II</span><span>${String(n).padStart(2, '0')} / 10</span></div>`; }
+function Foot({ n }) { return html`<div className="foot"><span><b>Tree Bank</b> · Prácticas Profesionalizantes II</span><span>${String(n).padStart(2, '0')} / 12</span></div>`; }
 function K({ children }) { return html`<div className="kicker in">${children}</div>`; }
 
 /* ---------- Diapositivas ---------- */
@@ -533,8 +586,8 @@ function Propuesta() {
     <div className="s2">
       <div>
         <${K}>Propuesta de valor</${K}>
-        <h2 className="title in" style=${{ '--i': 1 }}>Una plataforma bancaria <span className="mint">completa</span></h2>
-        <div className="list">${P.map(([Ic, t, d, c], i) => html`<${Card} key=${i} className="glass row in" style=${{ '--i': 3 + i }}><div className=${'ico ' + c}><${Ic} /></div><div><h3 className="card-h">${t}</h3><p className="card-p">${d}</p></div></${Card}>`)}</div>
+        <h2 className="title in" style=${{ '--i': 1 }}>Todo tu banco en <span className="mint">una sola app</span></h2>
+        <div className="list">${P.map(([Ic, t, d, c], i) => html`<${Card} key=${i} className="glass row in tilt3d" style=${{ '--i': 3 + i }}><div className=${'ico ' + c}><${Ic} /></div><div><h3 className="card-h">${t}</h3><p className="card-p">${d}</p></div></${Card}>`)}</div>
       </div>
       <${ParticleCard} />
     </div>
@@ -545,9 +598,10 @@ function Servicios() {
   const S = [[I.UserAddOutlined, 'Apertura de cuenta', 'CBU y alias al abrirla.', ''], [I.SendOutlined, 'Transferencias', 'Por CBU o alias.', ''], [I.FileTextOutlined, 'Pagos', 'Servicios y recargas.', 'g'], [I.PieChartOutlined, 'Seguimiento', 'Historial y categorías.', ''], [I.DollarOutlined, 'Cuenta en dólares', 'Caja en USD y cambio.', 'g'], [I.CreditCardOutlined, 'Préstamos', '3, 6, 12 o 24 cuotas.', ''], [I.SafetyOutlined, 'Protección', 'Tarjetas, seguros y reservas.', ''], [I.RiseOutlined, 'Inversiones', 'Acciones y cauciones.', 'g']];
   const glow = (e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--x', ((e.clientX - r.left) / r.width) * 100 + '%'); e.currentTarget.style.setProperty('--y', ((e.clientY - r.top) / r.height) * 100 + '%'); };
   return html`<div className="slide"><${Bg} /><div className="content">
+    <div className="demo-badge"><${Badge} status="processing" color="#f5c451" text="Demo en vivo" /></div>
     <${K}>Servicios</${K}>
-    <h2 className="title in" style=${{ '--i': 1 }}>Servicios <span className="gold">disponibles</span></h2>
-    <div className="grid8">${S.map(([Ic, t, d, c], i) => html`<${Card} key=${i} className="glass svc pop" style=${{ '--i': i }} onMouseMove=${glow}><div className=${'ico ' + c}><${Ic} /></div><h3 className="card-h">${t}</h3><p className="card-p">${d}</p></${Card}>`)}</div>
+    <h2 className="title in" style=${{ '--i': 1 }}>Ocho servicios, <span className="gold">una sola app</span></h2>
+    <div className="grid8">${S.map(([Ic, t, d, c], i) => html`<${Card} key=${i} className="glass svc pop tilt3d" style=${{ '--i': i }} onMouseMove=${glow}><div className=${'ico ' + c}><${Ic} /></div><h3 className="card-h">${t}</h3><p className="card-p">${d}</p></${Card}>`)}</div>
   </div><${Foot} n=${3} /></div>`;
 }
 
@@ -556,7 +610,7 @@ function Transferencias() {
   useEffect(() => { const id = setInterval(() => setCur((c) => (c + 1) % 4), 1700); return () => clearInterval(id); }, []);
   return html`<div className="slide"><${Bg} /><div className="content">
     <${K}>Transferencias</${K}>
-    <h2 className="title in" style=${{ '--i': 1 }}>Transferencias procesadas por el <span className="mint">Banco Central</span></h2>
+    <h2 className="title in" style=${{ '--i': 1 }}>Mandá y recibí plata de <span className="mint">cualquier banco</span></h2>
     <div className="s4">
       <${Card} className="glass steps in" style=${{ '--i': 2 }}><${Steps} direction="vertical" current=${cur} items=${[
         { title: 'Ingreso de CBU o alias', icon: html`<${I.NumberOutlined} />` },
@@ -587,7 +641,7 @@ function Inversiones() {
   const tick = [['GGAL', '+2,4%', 1], ['YPFD', '+1,1%', 1], ['PAMP', '−0,6%', 0], ['AAPL', '+0,8%', 1], ['MSFT', '+1,3%', 1], ['TSLA', '−1,9%', 0], ['BMA', '+3,0%', 1], ['NVDA', '+2,2%', 1], ['TXAR', '−0,4%', 0], ['KO', '+0,3%', 1]];
   return html`<div className="slide"><${Bg} /><div className="content">
     <${K}>Inversiones</${K}>
-    <h2 className="title in" style=${{ '--i': 1 }}>Inversiones con cotizaciones <span className="gold">reales</span></h2>
+    <h2 className="title in" style=${{ '--i': 1 }}>Tu plata trabaja con <span className="gold">precios reales</span></h2>
     <div className="ticker in" style=${{ '--i': 2 }} aria-hidden="true"><div className="ticker-track">${tick.concat(tick).map(([s, v, up], i) => html`<span key=${i} className="tick"><b>${s}</b><span className=${up ? 'up' : 'down'}>${up ? '▲' : '▼'} ${v}</span></span>`)}</div></div>
     <div className="inv">
       <${Card} className="glass in" style=${{ '--i': 3 }}><h3 className="card-h">Acciones argentinas</h3><p className="card-p">Operaciones en pesos.</p><${Spark} d="M0 84 L40 74 L80 79 L120 58 L160 63 L200 41 L240 46 L270 26 L300 31" end=${31} /></${Card}>
@@ -606,7 +660,7 @@ function Prestamos() {
   const R = [[I.LineChartOutlined, 'Límite según actividad', 'Depende de depósitos y transferencias recibidas.'], [I.AuditOutlined, 'Deuda considerada', 'Se evalúa la deuda activa.'], [I.CheckCircleOutlined, 'Cobro seguro', 'Cada cuota se cobra en una sola operación.']];
   return html`<div className="slide"><${Bg} /><div className="content">
     <${K}>Préstamos</${K}>
-    <h2 className="title in" style=${{ '--i': 1 }}>Préstamos con criterio de <span className="mint">responsabilidad</span></h2>
+    <h2 className="title in" style=${{ '--i': 1 }}>Crédito responsable, <span className="mint">simulado al instante</span></h2>
     <div className="s6">
       <${ConfigProvider} theme=${{ algorithm: theme.defaultAlgorithm, token: { colorPrimary: '#17694a', fontFamily: "Inter, system-ui, sans-serif" }, components: { Segmented: { itemSelectedBg: '#10261c', itemSelectedColor: '#f2fff8', trackBg: '#e6e4d7', itemColor: '#10261c', itemHoverColor: '#17694a' } } }}>
         <${Card} className="sim in" style=${{ '--i': 2 }}>
@@ -627,7 +681,7 @@ function Seguridad() {
   useEffect(() => { const id = setTimeout(() => setP(100), 900); return () => clearTimeout(id); }, []);
   return html`<div className="slide"><${Bg} /><div className="content">
     <${K}>Seguridad</${K}>
-    <h2 className="title in" style=${{ '--i': 1 }}>Seguridad en <span className="gold">cada etapa</span></h2>
+    <h2 className="title in" style=${{ '--i': 1 }}>Tu plata, <span className="gold">siempre protegida</span></h2>
     <div className="sec4">${S.map(([Ic, t, d], i) => html`<div key=${i} className="shinewrap pop" style=${{ '--i': i }}><div><div className="ico"><${Ic} /></div><h3 className="card-h" style=${{ fontSize: 21 }}>${t}</h3><p className="card-p">${d}</p></div></div>`)}</div>
     <div className="lockbig in" style=${{ '--i': 6 }}>
       <${Progress} type="circle" percent=${p} size=${92} strokeColor=${{ '0%': '#f5c451', '100%': '#6ee7b7' }} trailColor="rgba(167,243,208,.12)" format=${() => html`<${I.SafetyOutlined} style=${{ fontSize: 30, color: '#6ee7b7' }} />`} />
@@ -639,7 +693,7 @@ function Seguridad() {
 function Integridad() {
   return html`<div className="slide"><${Bg} /><div className="content">
     <${K}>Integridad de los fondos</${K}>
-    <h2 className="title in" style=${{ '--i': 1 }}>Ninguna operación deja los fondos <span className="mint">a medias</span></h2>
+    <h2 className="title in" style=${{ '--i': 1 }}>Ninguna operación deja la plata <span className="mint">a medias</span></h2>
     <div className="s8">
       <${Card} className="glass in" style=${{ '--i': 2 }}><h3 className="card-h">Todo o nada</h3><p className="card-p" style=${{ marginBottom: 22 }}>Cada operación se completa íntegramente o no se realiza.</p>
         <${Timeline} className="tl" items=${[{ color: 'green', children: 'Descontar $ 50.000 ✓' }, { color: 'green', children: 'Registrar movimiento ✓' }, { color: 'red', dot: html`<${I.CloseCircleFilled} />`, children: 'El Banco Central responde con error' }, { color: 'gold', dot: html`<${I.RollbackOutlined} />`, children: 'Se deshace todo: saldo intacto' }]} /></${Card}>
@@ -654,7 +708,7 @@ function Administracion() {
   const C = ['Consultar todas las cuentas', 'Bloquear, reactivar o cerrar cuentas', 'Eliminar cuentas sin saldo ni deudas', 'Resolver reportes de problemas'];
   return html`<div className="slide"><${Bg} /><div className="content">
     <${K}>Administración</${K}>
-    <h2 className="title in" style=${{ '--i': 1 }}>Control para el <span className="gold">equipo del banco</span></h2>
+    <h2 className="title in" style=${{ '--i': 1 }}>El control del banco, <span className="gold">en manos seguras</span></h2>
     <div className="s9">
       <${Card} className="glass in" style=${{ '--i': 2 }}><h3 className="card-h" style=${{ marginBottom: 18 }}>El administrador puede</h3>
         <div className="checks">${C.map((t, i) => html`<div key=${i} className="check pop" style=${{ '--i': i + 3 }}><${I.CheckCircleFilled} />${t}</div>`)}</div></${Card}>
@@ -668,12 +722,57 @@ function Administracion() {
   </div><${Foot} n=${9} /></div>`;
 }
 
+
+/* Contador estilo odómetro: cada dígito rueda hasta su valor */
+function Odometer({ value, delay = 0 }) {
+  const [on, setOn] = useState(false);
+  useEffect(() => { const id = setTimeout(() => setOn(true), 350 + delay); return () => clearTimeout(id); }, [delay]);
+  return html`<span className="odo" aria-label=${value}>${String(value).split('').map((ch, k) => /\d/.test(ch)
+    ? html`<span key=${k} className="odo-col" aria-hidden="true"><span className="odo-strip" style=${{ transform: `translateY(${on ? -Number(ch) * 10 : 0}%)`, transitionDelay: k * 120 + delay + 'ms' }}>${'0123456789'.split('').map((d) => html`<span key=${d}>${d}</span>`)}</span></span>`
+    : html`<span key=${k} className="odo-ch" aria-hidden="true">${ch}</span>`)}</span>`;
+}
+
+function Probado() {
+  const S = [
+    [I.CheckCircleOutlined, '80', '/80', 'pruebas automáticas aprobadas', 'Permisos, validaciones, roles y dinero', 100],
+    [I.TeamOutlined, '25', '', 'clientes de prueba cargados', 'Con 4 meses de historial cada uno', 0],
+    [I.SwapOutlined, '369', '', 'movimientos coherentes', 'El saldo coincide al centavo', 0],
+    [I.SafetyOutlined, '0', '', 'saldos negativos', '30 pagos simultáneos sobre $ 20.000', 0],
+    [I.ThunderboltOutlined, '800', '', 'pedidos por segundo', 'Con 25 usuarios a la vez', 0],
+    [I.GlobalOutlined, '24', '/7', 'online, sin sucursal', 'Desde la compu o el celular', 0],
+  ];
+  return html`<div className="slide"><${Bg} /><div className="content">
+    <${K}>Probado y listo</${K}>
+    <h2 className="title in" style=${{ '--i': 1 }}>No es una maqueta: <span className="gold">funciona hoy</span></h2>
+    <div className="proof">${S.map(([Ic, v, suf, t, d], i) => html`<div key=${i} className="proof-tile pop tilt3d" style=${{ '--i': i }}>
+      <div className="proof-ico"><${Ic} /></div>
+      <div className="proof-num"><${Odometer} value=${v} delay=${i * 120} /><span className="suf">${suf}</span></div>
+      <div className="proof-t">${t}</div><div className="proof-d">${d}</div>
+      <div className="proof-bar"><i style=${{ animationDelay: 0.6 + i * 0.12 + 's' }}></i></div>
+    </div>`)}</div>
+  </div><${Foot} n=${10} /></div>`;
+}
+
+function Instituto() {
+  const steps = [['2026', 'Nosotros lo construimos', 'Analistas de Sistemas: base de datos, servidor, app y documentación.'], ['2027', 'La TSGA aprende con él', 'Alumnos de Gestión Administrativa abren cuentas, auditan movimientos y arman reportes.'], ['Después', 'Mundo real', 'Administradores que entienden la tecnología y analistas que entienden la gestión.']];
+  const V = [[I.ApartmentOutlined, 'Procesos reales', 'Abrir una cuenta, transferir, emitir un comprobante.'], [I.DatabaseOutlined, 'Datos para analizar', '25 clientes y 369 movimientos listos para reportes.'], [I.SafetyCertificateOutlined, 'Control de acceso', 'Cliente, empleado y administrador, como en un banco.'], [I.ReadOutlined, 'Documentación completa', 'Para usarlo, instalarlo y mantenerlo sin experiencia previa.']];
+  return html`<div className="slide"><${Bg} /><div className="content">
+    <${K}>Para el instituto</${K}>
+    <h2 className="title in" style=${{ '--i': 1 }}>Un banco real para que <span className="mint">la TSGA aprenda</span></h2>
+    <div className="road in" style=${{ '--i': 2 }}>
+      <svg className="road-line" viewBox="0 0 1380 40" preserveAspectRatio="none" aria-hidden="true"><path d="M20 20 H1360" /><path className="road-glow" d="M20 20 H1360" /></svg>
+      ${steps.map(([y, t, d], i) => html`<div key=${i} className="road-step" style=${{ animationDelay: 0.5 + i * 0.45 + 's' }}><span className="road-dot"></span><b>${y}</b><h3>${t}</h3><p>${d}</p></div>`)}
+    </div>
+    <div className="vals">${V.map(([Ic, t, d], i) => html`<div key=${i} className="val pop" style=${{ '--i': i + 5 }}><div className="ico g"><${Ic} /></div><div><h3>${t}</h3><p>${d}</p></div></div>`)}</div>
+  </div><${Foot} n=${11} /></div>`;
+}
+
 function Cierre() {
   return html`<div className="slide">
     <${Scene} left="TU PLATA" right="CRECE" sub="Tu banco, tu naturaleza" fs=${128} />
     <div className="cover-ui">
-      <div className="cover-top"><div className="wm"><${Mark} />TREE BANK</div><p>Quedamos a disposición para consultas</p></div>
-      <p className="cover-lead">Una plataforma bancaria <span>completa, segura y en línea.</span></p>
+      <div className="cover-top"><div className="wm"><${Mark} />TREE BANK</div><p>Gracias · ¿Preguntas?</p></div>
+      <p className="cover-lead">Proponemos <span>Tree Bank como banco de práctica de la TSGA en 2027.</span></p>
       <div className="cover-bottom">
         <div className="team">${['Carrara Gianluca', 'Berterame Braian', 'Paez Milton'].map((n) => html`<${Tag} key=${n} bordered=${false}>${n}</${Tag}>`)}</div>
         <div className="qrbox"><${QRCode} value=${APP} size=${86} bordered=${false} color="#10261c" bgColor="#ffffff" /><div><small>Escanee para ingresar</small><b>tree-bank1.netlify.app</b></div></div>
@@ -683,16 +782,18 @@ function Cierre() {
 }
 
 const SLIDES = [
-  [Cover, 'Presentar el nombre, el lema y la propuesta en una frase: banca digital completa, con CBU y alias reales, conectada al Banco Central. El código QR abre el banco en vivo; conviene abrirlo unos minutos antes de exponer, porque el servidor gratuito se suspende por inactividad.'],
-  [Propuesta, 'Tres ideas: servicios integrados, conexión con el sistema bancario real y operatoria en pesos y dólares. Cada cuenta recibe su CBU y su alias del Banco Central al abrirse.'],
-  [Servicios, 'Recorrer las ocho áreas con foco en el beneficio para el cliente. Si hay demostración en vivo, es el momento: ingreso, panel, una transferencia y el historial.'],
-  [Transferencias, 'Cuatro pasos. Con transparencia: una transferencia recibida de otro banco no se refleja al instante, sino en la sincronización con el Banco Central, cada 15 minutos. Pasar de pesos a dólares solo es posible por Cambio.'],
-  [Inversiones, 'Si se consulta: las acciones usan precios reales (data912.com, con histórico de Yahoo Finance para las de EE.UU.), pero la tasa de las cauciones es simulada con una curva propia, porque BYMA no ofrece una API pública gratuita de esa tasa. Las acciones de EE.UU. requieren abrir antes la caja en USD.'],
-  [Prestamos, 'Mensaje central: crédito responsable. Antes, una cuenta con $2 podía solicitar un préstamo elevado con solo superar el control de la Central de Deudores. Ahora el tope depende de la actividad real de la cuenta, y otros préstamos o cauciones no cuentan como ingreso.'],
-  [Seguridad, 'Detalle técnico, si se solicita: contraseñas con bcrypt, sesiones JWT de 8 horas, limitador de intentos por IP, CORS restringido y validación centralizada de montos, DNI y emails. El servidor no inicia si falta la clave secreta y nunca se devuelve el hash de una contraseña.'],
-  [Integridad, 'Cubre transferencias, depósitos, préstamos, tarjetas, seguros, inversiones, cambio de divisas, pagos y recargas. Detalle técnico: transacciones de base de datos (BEGIN, COMMIT, ROLLBACK) y descuento en una sola sentencia con condición de saldo, lo que evita la condición de carrera.'],
-  [Administracion, 'Visibilidad y control sin riesgos para quien administra el banco. El rol de administrador solo lo asigna el equipo técnico en el servidor. Bloquear es reversible; eliminar es irreversible y se rechaza si hay saldo o deudas. El rol empleado (soporte) solo consulta y atiende reportes.'],
-  [Cierre, 'Cerrar con la propuesta en una línea y pasar a la demostración o a las preguntas. Cada cambio se publica automáticamente en 1 a 3 minutos, sobre servicios gratuitos (Netlify, Render y Supabase). Antes de una demostración en vivo, despertar el servidor de Render: se suspende a los 15 minutos sin tráfico.'],
+  [Cover, 'EXPOSITOR 1 · 30 s. «Buenas. Somos Gianluca, Braian y Milton, y les presentamos Tree Bank: un banco digital que hace crecer tu plata.» Señalar el QR: «Pueden escanearlo ahora: el banco ya está funcionando.» Antes de empezar, la app tiene que estar abierta desde hace 10 minutos para despertar el servidor.'],
+  [Propuesta, 'EXPOSITOR 1 · 45 s. Esperar a que la tarjeta se arme. «La gente quiere manejar su plata desde el celular, sin colas, y con la tranquilidad de que nada se pierde. Tree Bank hace eso: todo el banco en una app, en pesos y dólares, y conectado al Banco Central con CBU y alias reales, igual que un banco de verdad.»'],
+  [Servicios, 'EXPOSITOR 2 · DEMO EN VIVO, 2 min. «Tenemos ocho servicios, pero les mostramos tres.» En la app: 1) iniciar sesión (no usar el DNI 28999888), 2) mostrar el saldo, 3) hacer una transferencia, 4) abrir Movimientos y mostrar los gráficos. Volver a la presentación con la tecla →.'],
+  [Transferencias, 'EXPOSITOR 2 · 30 s. «Las transferencias funcionan con los bancos de los otros grupos: las procesa el Banco Central, como pasa en la realidad.» Si preguntan por qué no llega al instante: la sincronización con el Banco Central corre cada 15 minutos.'],
+  [Inversiones, 'EXPOSITOR 2 · 30 s. «Tu plata puede trabajar: acciones argentinas y de EE.UU. con precios reales del mercado, y cauciones.» Si preguntan: los precios vienen de data912 y Yahoo Finance; la tasa de caución es simulada porque BYMA no la publica gratis.'],
+  [Prestamos, 'EXPOSITOR 2 · 45 s. Usar el simulador en vivo: mover el monto y cambiar las cuotas. «Prestamos con responsabilidad: el máximo depende de lo que el cliente realmente mueve en el banco, y antes se consulta la Central de Deudores.»'],
+  [Seguridad, 'EXPOSITOR 3 · 30 s. «La confianza es lo más importante en un banco.» Contraseñas cifradas, sesión de 8 horas, bloqueo después de 10 intentos fallidos y errores que no muestran nada interno.'],
+  [Integridad, 'EXPOSITOR 3 · 45 s. El dato que vende: «Probamos 30 pagos al mismo tiempo sobre una cuenta con $20.000: se aprobaron 4 y el saldo nunca quedó en negativo.» Si se corta todo a mitad de una operación, se deshace y nadie pierde plata.'],
+  [Administracion, 'EXPOSITOR 3 · 30 s. «El banco se controla con tres roles: cliente, empleado que solo consulta, y administrador. Nadie puede darse permisos solo: los asigna el equipo técnico.» Opcional: mostrar en la app el panel de admin bloqueando una cuenta.'],
+  [Probado, 'EXPOSITOR 3 · 30 s. «No es una maqueta: funciona hoy.» Leer los números despacio, de a uno: 80 pruebas aprobadas, 25 clientes con historial, 369 movimientos, cero saldos negativos, 800 pedidos por segundo.'],
+  [Instituto, 'EXPOSITOR 1 · 45 s. «Y esto no termina en una nota. La consigna dice que estos bancos van a usarse en la Tecnicatura en Gestión Administrativa. Tree Bank ya está listo: procesos reales, datos para analizar, roles y documentación para que cualquiera lo use y lo mantenga.»'],
+  [Cierre, 'EXPOSITOR 1 · 30 s. El pedido: «Proponemos usar Tree Bank como banco de práctica de la TSGA en 2027.» Agradecer y abrir preguntas. Respuestas rápidas: ¿seguro? 80 pruebas y contraseñas cifradas · ¿aguanta? 800 pedidos por segundo · ¿por qué tarda a veces? servidor gratuito que se duerme; con plan pago desaparece.'],
 ];
 
 function readHash() { const m = /^#s(\d+)$/.exec(location.hash || ''); const n = m ? parseInt(m[1], 10) - 1 : 0; return n >= 0 && n < SLIDES.length ? n : 0; }
@@ -718,9 +819,15 @@ function Deck() {
     return () => { removeEventListener('resize', fit); removeEventListener('keydown', key); removeEventListener('hashchange', hc); };
   }, [go]);
   const [S, note] = SLIDES[i];
+  const tilt = (e) => {
+    const el = e.target.closest && e.target.closest('.tilt3d'); if (!el) return;
+    const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    el.style.transform = `perspective(900px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-6px)`;
+    el.onmouseleave = () => { el.style.transform = ''; };
+  };
   return html`<${ConfigProvider} theme=${{ algorithm: theme.darkAlgorithm, token: { colorPrimary: '#10b981', colorBgContainer: '#0d291d', colorText: '#e8f4ed', colorTextSecondary: '#a3bfb1', borderRadius: 14, fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', sans-serif" } }}>
     <div className="progress" style=${{ width: ((i + 1) / SLIDES.length) * 100 + '%' }}></div>
-    <div className="viewport"><div className="canvas" style=${{ transform: `translate(-50%, -50%) scale(${scale})` }}><${S} key=${i} /></div></div>
+    <div className="viewport" onMouseMove=${tilt}><div className="canvas" style=${{ transform: `translate(-50%, -50%) scale(${scale})` }}><${S} key=${i} /><div className="wipe" key=${'w' + i} aria-hidden="true"><span className="wipe-mark"><${Mark} /></span></div></div></div>
     <div className="controls">
       <${Tooltip} title="Anterior (←)"><${Button} shape="circle" type="text" icon=${html`<${I.LeftOutlined} />`} onClick=${() => go(i - 1)} disabled=${i === 0} aria-label="Diapositiva anterior" /></${Tooltip}>
       <div className="dots">${SLIDES.map((_, k) => html`<button key=${k} className=${k === i ? 'on' : ''} onClick=${() => go(k)} aria-label=${'Ir a la diapositiva ' + (k + 1)}></button>`)}</div>
