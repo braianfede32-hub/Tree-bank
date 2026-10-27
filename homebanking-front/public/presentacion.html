@@ -411,6 +411,39 @@ body { margin: 0; overflow: hidden; background: #020805; color: var(--on-dark); 
 .cmp .tb .y { filter: drop-shadow(0 0 8px rgba(110, 231, 183, .7)); }
 .cmp > div.c.v > * { animation: pop .5s cubic-bezier(.2, 1.4, .4, 1) both; animation-delay: inherit; }
 .notes-text { white-space: pre-line; }
+
+/* Cierre: llamado a la acción con QR que escanea, anillos y partículas que suben */
+.ce { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(90% 80% at 72% 50%, #0f3a28 0%, #06170f 55%, #020805 100%); font-family: var(--font-brand); }
+.ce canvas.pt { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ce-ring { position: absolute; left: 1150px; top: 450px; width: 300px; height: 300px; margin: -150px; border-radius: 50%; border: 1.5px solid rgba(110, 231, 183, .45); animation: cering 4.5s cubic-bezier(.2, .6, .3, 1) infinite; }
+.ce-ring:nth-of-type(2) { animation-delay: 1.5s; } .ce-ring:nth-of-type(3) { animation-delay: 3s; }
+@keyframes cering { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(3.4); opacity: 0; } }
+.ce-left { position: absolute; left: 90px; top: 0; bottom: 0; width: 760px; display: flex; flex-direction: column; justify-content: center; }
+.ce-thanks { display: inline-flex; align-self: flex-start; align-items: center; gap: 10px; padding: 8px 18px; border-radius: 999px; background: rgba(245, 196, 81, .12); border: 1px solid rgba(245, 196, 81, .35); color: var(--gold-soft); font-size: 16px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; animation: fade .8s ease .2s both; }
+.ce-h { margin: 18px 0 0; font-size: 112px; line-height: 1; font-weight: 800; letter-spacing: -.025em; color: #fff; }
+.ce-h .row { display: block; overflow: hidden; padding: 14px 0 6px; margin-top: -14px; }
+.ce-h .w { display: inline-block; transform: translateY(110%); animation: cvword .9s cubic-bezier(.2, .9, .1, 1) forwards; }
+.ce-h .g { background: linear-gradient(100deg, #ffe2a8, #f5c451 40%, #6ee7b7); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ce-recap { display: flex; flex-direction: column; gap: 12px; margin-top: 34px; }
+.ce-recap div { display: flex; align-items: center; gap: 14px; font-family: var(--font-ui); font-size: 23px; color: var(--on-dark); opacity: 0; animation: cvslide .6s ease forwards; }
+.ce-recap .anticon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; background: rgba(110, 231, 183, .14); color: var(--mint); font-size: 18px; }
+.ce-team { display: flex; gap: 14px; margin-top: 44px; }
+.ce-mem { display: flex; align-items: center; gap: 10px; padding: 8px 16px 8px 8px; border-radius: 999px; background: rgba(255, 255, 255, .05); border: 1px solid var(--line); font-family: var(--font-ui); font-size: 16px; color: #fff; opacity: 0; animation: pop .6s cubic-bezier(.2, 1.4, .4, 1) forwards; }
+.ce-mem i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; font-style: normal; font-weight: 800; font-size: 14px; color: #04120b; background: linear-gradient(135deg, var(--gold), var(--mint)); }
+.ce-qr { position: absolute; left: 1150px; top: 450px; width: 360px; margin-left: -180px; transform: translateY(-50%); padding: 26px; border-radius: 34px; background: linear-gradient(160deg, rgba(20, 60, 42, .92), rgba(8, 28, 19, .92)); border: 1px solid rgba(167, 243, 208, .3); box-shadow: 0 50px 100px -30px rgba(0, 0, 0, .8), 0 0 80px -10px rgba(16, 185, 129, .45); text-align: center; animation: ceqr 1.1s cubic-bezier(.2, 1.2, .3, 1) .5s both; }
+@keyframes ceqr { from { opacity: 0; transform: translateY(-40%) scale(.8) rotate(-4deg); } }
+.ce-qr-box { position: relative; padding: 16px; border-radius: 22px; background: #fff; overflow: hidden; }
+.ce-qr-box .ant-qrcode { margin: 0 auto; padding: 0 !important; border: 0 !important; }
+.ce-scan { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, transparent, #10b981, transparent); box-shadow: 0 0 18px 6px rgba(16, 185, 129, .55); animation: cescan 2.6s ease-in-out 1.6s infinite; }
+@keyframes cescan { 0%, 100% { top: 6%; } 50% { top: 94%; } }
+.ce-corner { position: absolute; width: 34px; height: 34px; border: 4px solid var(--emerald); }
+.ce-corner.a { left: 8px; top: 8px; border-right: 0; border-bottom: 0; border-radius: 12px 0 0 0; } .ce-corner.b { right: 8px; top: 8px; border-left: 0; border-bottom: 0; border-radius: 0 12px 0 0; }
+.ce-corner.c { left: 8px; bottom: 8px; border-right: 0; border-top: 0; border-radius: 0 0 0 12px; } .ce-corner.d { right: 8px; bottom: 8px; border-left: 0; border-top: 0; border-radius: 0 0 12px 0; }
+.ce-qr h3 { margin: 20px 0 4px; font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -.01em; }
+.ce-qr p { margin: 0; font-family: var(--font-ui); font-size: 16px; color: var(--mint-soft); }
+.ce-ask { position: absolute; left: 1150px; top: 712px; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 10px; padding: 10px 22px; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--mint)); color: #04120b; font-size: 20px; font-weight: 800; box-shadow: 0 0 0 0 rgba(245, 196, 81, .6); animation: fade .8s ease 2.4s both, cvlive 2.2s ease-out 3s infinite; }
+.ce-brand { position: absolute; left: 90px; top: 50px; display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: .28em; font-size: 20px; color: #fff; animation: fade 1s ease both; }
+.ce-brand svg { width: 38px; height: 38px; }
 </style>
 </head>
 <body>
@@ -971,18 +1004,49 @@ function Comparacion() {
   </div><${Foot} /></div>`;
 }
 
+function Particles() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const cv = ref.current, ctx = cv.getContext('2d'); let raf;
+    const W = cv.width = 1600, H = cv.height = 900;
+    const P = Array.from({ length: 70 }, () => ({ x: Math.random() * W, y: H + Math.random() * H, r: 1 + Math.random() * 3.5, v: .3 + Math.random() * .9, s: Math.random() * 6.28, gold: Math.random() < .3 }));
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      for (const p of P) {
+        p.y -= p.v; p.s += .02; const x = p.x + Math.sin(p.s) * 14;
+        if (p.y < -20) { p.y = H + 20; p.x = Math.random() * W; }
+        const a = Math.min(1, p.y / H) * .8;
+        ctx.beginPath(); ctx.fillStyle = p.gold ? `rgba(245,196,81,${a})` : `rgba(110,231,183,${a * .7})`;
+        ctx.shadowBlur = 12; ctx.shadowColor = p.gold ? '#f5c451' : '#10b981';
+        ctx.arc(x, p.y, p.r, 0, 6.28); ctx.fill();
+      }
+      raf = requestAnimationFrame(draw);
+    };
+    draw(); return () => cancelAnimationFrame(raf);
+  }, []);
+  return html`<canvas className="pt" ref=${ref} aria-hidden="true"></canvas>`;
+}
+
 function Cierre() {
-  return html`<div className="slide">
-    <${Scene} left="TU PLATA" right="CRECE" sub="Tu banco, tu naturaleza" fs=${128} />
-    <div className="cover-ui">
-      <div className="cover-top"><div className="wm"><${Mark} />TREE BANK</div><p>Gracias · ¿Preguntas?</p></div>
-      <p className="cover-lead">Abrí tu cuenta hoy: <span>escaneá el QR y empezá a hacer crecer tu plata.</span></p>
-      <div className="cover-bottom">
-        <div className="team">${['Carrara Gianluca', 'Berterame Braian', 'Paez Milton'].map((n) => html`<${Tag} key=${n} bordered=${false}>${n}</${Tag}>`)}</div>
-        <div className="qrbox"><${QRCode} value=${APP} size=${86} bordered=${false} color="#10261c" bgColor="#ffffff" /><div><small>Escanee para ingresar</small><b>tree-bank1.netlify.app</b></div></div>
-      </div>
+  const rows = [[['Abrí', 0], ['tu', 1]], [['cuenta', 2], ['hoy.', 3, 'g']]];
+  const recap = [[I.MobileOutlined, 'Tu banco en el celular, las 24 horas'], [I.SafetyOutlined, 'Tu plata segura, y trabajando para vos'], [I.ThunderboltOutlined, 'Empezás en dos minutos, gratis']];
+  const team = [['GC', 'Carrara Gianluca'], ['BB', 'Berterame Braian'], ['PM', 'Paez Milton']];
+  return html`<div className="slide"><div className="ce">
+    <${Particles} />
+    <div className="ce-ring"></div><div className="ce-ring"></div><div className="ce-ring"></div>
+    <div className="ce-brand"><${Mark} />TREE BANK</div>
+    <div className="ce-left">
+      <span className="ce-thanks"><${I.HeartFilled} /> ¡Gracias!</span>
+      <h2 className="ce-h">${rows.map((r, k) => html`<span key=${k} className="row">${r.map(([w, n, c]) => html`<span key=${w} className=${'w' + (c ? ' ' + c : '')} style=${{ animationDelay: 0.35 + n * 0.1 + 's' }}>${w}</span>${' '}`)}</span>`)}</h2>
+      <div className="ce-recap">${recap.map(([Ic, s], k) => html`<div key=${k} style=${{ animationDelay: 1.1 + k * 0.18 + 's' }}><${Ic} />${s}</div>`)}</div>
+      <div className="ce-team">${team.map(([ini, n], k) => html`<div key=${n} className="ce-mem" style=${{ animationDelay: 1.8 + k * 0.12 + 's' }}><i>${ini}</i>${n}</div>`)}</div>
     </div>
-  </div>`;
+    <div className="ce-qr">
+      <div className="ce-qr-box"><${QRCode} value=${APP} size=${276} bordered=${false} color="#0a2117" bgColor="#ffffff" /><span className="ce-corner a"></span><span className="ce-corner b"></span><span className="ce-corner c"></span><span className="ce-corner d"></span><div className="ce-scan"></div></div>
+      <h3>Escaneá y empezá</h3><p>tree-bank1.netlify.app</p>
+    </div>
+    <div className="ce-ask"><${I.MessageOutlined} /> ¿Preguntas?</div>
+  </div></div>`;
 }
 
 const SLIDES = [
