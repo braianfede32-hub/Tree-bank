@@ -395,7 +395,7 @@ body { margin: 0; overflow: hidden; background: #020805; color: var(--on-dark); 
 .cmp { position: relative; margin-top: 36px; display: grid; grid-template-columns: 1.35fr 1fr 1fr 1fr; border-radius: 24px; background: rgba(10, 33, 23, .55); border: 1px solid var(--line); }
 .cmp-hl { position: absolute; top: -14px; bottom: -14px; left: calc(1.35 / 4.35 * 100%); width: calc(1 / 4.35 * 100%); border-radius: 22px; background: linear-gradient(180deg, rgba(16, 185, 129, .22), rgba(16, 185, 129, .08)); border: 1.5px solid rgba(110, 231, 183, .55); box-shadow: 0 0 60px -10px rgba(16, 185, 129, .55); animation: cmphl 1s cubic-bezier(.2, .9, .1, 1) .3s both; }
 @keyframes cmphl { from { opacity: 0; transform: scaleY(.6); } }
-.cmp-hl::before { content: "Nuestra propuesta"; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); padding: 4px 14px; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--mint)); color: #04120b; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.cmp-hl::before { content: "La mejor opción"; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); padding: 4px 14px; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--mint)); color: #04120b; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
 .cmp > div.c { position: relative; padding: 14px 20px; display: flex; align-items: center; font-size: 18px; border-top: 1px solid rgba(167, 243, 208, .07); opacity: 0; animation: fade .45s ease forwards; }
 .cmp > div.c.h { border-top: 0; padding-top: 22px; padding-bottom: 16px; font-family: var(--font-brand); font-weight: 700; font-size: 19px; color: #fff; justify-content: center; }
 .cmp > div.c.h.tb { color: var(--mint-soft); font-size: 22px; gap: 10px; }
@@ -861,17 +861,17 @@ function Integridad() {
 }
 
 function Administracion() {
-  const C = ['Consultar todas las cuentas', 'Bloquear, reactivar o cerrar cuentas', 'Eliminar cuentas sin saldo ni deudas', 'Resolver reportes de problemas'];
+  const C = ['Si perdés el celular, bloqueamos tu cuenta', 'La reactivamos cuando vos lo pidas', 'Respondemos tus reportes de problemas', 'Cerramos tu cuenta sin vueltas si te vas'];
   return html`<div className="slide"><${Bg} /><div className="content">
-    <${K}>Administración</${K}>
-    <h2 className="title in" style=${{ '--i': 1 }}>El control del banco, <span className="gold">en manos seguras</span></h2>
+    <${K}>Atención</${K}>
+    <h2 className="title in" style=${{ '--i': 1 }}>Un equipo que <span className="gold">cuida tu cuenta</span></h2>
     <div className="s9">
-      <${Card} className="glass in" style=${{ '--i': 2 }}><h3 className="card-h" style=${{ marginBottom: 18 }}>El administrador puede</h3>
+      <${Card} className="glass in" style=${{ '--i': 2 }}><h3 className="card-h" style=${{ marginBottom: 18 }}>Nuestro equipo puede</h3>
         <div className="checks">${C.map((t, i) => html`<div key=${i} className="check pop" style=${{ '--i': i + 3 }}><${I.CheckCircleFilled} />${t}</div>`)}</div></${Card}>
       <${Card} className="glass vault in" style=${{ '--i': 3 }}>
         <div className="ico g" style=${{ width: 72, height: 72, fontSize: 34 }}><${I.LockFilled} /></div>
         <h3 className="card-h" style=${{ fontSize: 30 }}>Rol protegido</h3>
-        <p className="card-p" style=${{ fontSize: 19 }}>No puede solicitarse desde la aplicación. Lo asigna solo el equipo técnico en el servidor.</p>
+        <p className="card-p" style=${{ fontSize: 19 }}>Nadie puede darse permisos desde la app: cada persona ve solo lo que le corresponde.</p>
         <div className="roles3"><${Tag} color="green">Cliente</${Tag}><${Tag} color="cyan">Empleado · solo consulta</${Tag}><${Tag} color="gold">Administrador</${Tag}></div>
       </${Card}>
     </div>
@@ -910,11 +910,11 @@ function Probado() {
 }
 
 function Instituto() {
-  const steps = [['2026', 'Nosotros lo construimos', 'Analistas de Sistemas: base de datos, servidor, app y documentación.'], ['2027', 'Curso piloto en la TSGA', 'Un curso de Gestión Administrativa abre cuentas, audita movimientos y arma reportes.'], ['Después', 'Mundo real', 'Administradores que entienden la tecnología y analistas que entienden la gestión.']];
-  const V = [[I.ApartmentOutlined, 'Procesos reales', 'Abrir una cuenta, transferir, emitir un comprobante.'], [I.DatabaseOutlined, 'Datos para analizar', '25 clientes y 369 movimientos listos para reportes.'], [I.SafetyCertificateOutlined, 'Control de acceso', 'Cliente, empleado y administrador, como en un banco.'], [I.ReadOutlined, 'Documentación completa', 'Para usarlo, instalarlo y mantenerlo sin experiencia previa.']];
+  const steps = [['Paso 1', 'Escaneá el código QR', 'O entrá a tree-bank1.netlify.app desde el celular o la compu.'], ['Paso 2', 'Registrate con tu DNI', 'Completás tus datos y elegís tu contraseña. Sin papeles ni turnos.'], ['Paso 3', 'Recibí tu CBU y alias', 'Tu cuenta queda lista para recibir plata, pagar e invertir.']];
+  const V = [[I.GiftOutlined, 'Apertura gratis', 'Sin costo para abrir tu cuenta.'], [I.DollarOutlined, 'Pesos y dólares', 'Una caja por moneda y cambio de divisas.'], [I.ClockCircleOutlined, 'Las 24 horas', 'Operás cuando quieras, sin sucursal.'], [I.FileDoneOutlined, 'Comprobantes', 'De cada operación, para guardar o compartir.']];
   return html`<div className="slide"><${Bg} /><div className="content">
-    <${K}>Para el instituto</${K}>
-    <h2 className="title in" style=${{ '--i': 1 }}>Un banco real para que <span className="mint">la TSGA aprenda</span></h2>
+    <${K}>Empezá hoy</${K}>
+    <h2 className="title in" style=${{ '--i': 1 }}>Tu cuenta, lista en <span className="mint">tres pasos</span></h2>
     <div className="road in" style=${{ '--i': 2 }}>
       <svg className="road-line" viewBox="0 0 1380 40" preserveAspectRatio="none" aria-hidden="true"><path d="M20 20 H1360" /><path className="road-glow" d="M20 20 H1360" /></svg>
       ${steps.map(([y, t, d], i) => html`<div key=${i} className="road-step" style=${{ animationDelay: 0.5 + i * 0.45 + 's' }}><span className="road-dot"></span><b>${y}</b><h3>${t}</h3><p>${d}</p></div>`)}
@@ -924,13 +924,13 @@ function Instituto() {
 }
 
 function Problema() {
-  const old = ['Procesos bancarios aprendidos en papel', 'Ejemplos inventados, sin datos reales', 'Nadie ve cómo funciona un banco por dentro', 'Sin práctica antes del primer trabajo'];
-  const nw = ['Abrir cuentas y operar en un sistema real', '25 clientes y 369 movimientos para analizar', 'Roles de cliente, empleado y administrador', 'Práctica desde el primer día, gratis'];
+  const old = ['Colas y horarios de sucursal', 'Plata parada que pierde valor', 'Papeles para pedir un préstamo', 'Una app para cada cosa'];
+  const nw = ['Tu banco en el celular, las 24 horas', 'Invertís en acciones con precios reales', 'Simulás tu préstamo en segundos', 'Pesos, dólares, pagos e inversiones en una app'];
   return html`<div className="slide"><${Bg} /><div className="content">
-    <${K}>El problema</${K}>
-    <h2 className="title in" style=${{ '--i': 1, maxWidth: '24ch' }}>Hoy la banca se aprende <span className="gold">sin tocar un banco</span></h2>
+    <${K}>¿Te pasa?</${K}>
+    <h2 className="title in" style=${{ '--i': 1, maxWidth: '24ch' }}>Tu banco te hace perder <span className="gold">tiempo y plata</span></h2>
     <div className="pb">
-      <div className="pb-col old in" style=${{ '--i': 2 }}><h3>Hoy</h3>${old.map((s, k) => html`<div key=${k} className="pb-it" style=${{ animationDelay: 0.4 + k * 0.15 + 's' }}><${I.CloseCircleOutlined} /><span style=${{ animationDelay: 1.1 + k * 0.18 + 's' }}>${s}</span></div>`)}</div>
+      <div className="pb-col old in" style=${{ '--i': 2 }}><h3>Con tu banco de siempre</h3>${old.map((s, k) => html`<div key=${k} className="pb-it" style=${{ animationDelay: 0.4 + k * 0.15 + 's' }}><${I.CloseCircleOutlined} /><span style=${{ animationDelay: 1.1 + k * 0.18 + 's' }}>${s}</span></div>`)}</div>
       <div className="pb-mid"><div className="pb-arrow"><${I.ArrowRightOutlined} /></div></div>
       <div className="pb-col new in tilt3d" style=${{ '--i': 4 }}><h3>Con Tree Bank</h3>${nw.map((s, k) => html`<div key=${k} className="pb-it" style=${{ animationDelay: 2.1 + k * 0.18 + 's' }}><${I.CheckCircleFilled} /><span>${s}</span></div>`)}</div>
     </div>
@@ -940,24 +940,24 @@ function Problema() {
 function Comparacion() {
   const Y = html`<${I.CheckCircleFilled} className="y" />`, N = html`<${I.CloseCircleFilled} className="n" />`;
   const rows = [
-    ['CBU y alias reales', Y, N, Y],
-    ['Transferencias entre bancos', Y, N, Y],
-    ['Pesos y dólares', Y, 'A veces', Y],
-    ['Cliente, empleado y administrador', Y, N, 'Sin acceso'],
-    ['Datos listos para analizar', Y, N, 'Confidenciales'],
-    ['Se puede usar para enseñar', Y, Y, N],
-    ['Costo para el instituto', 'Gratis', 'Licencia', 'No aplica'],
+    ['CBU propio y alias', Y, Y, 'Solo CVU'],
+    ['Cuenta en dólares', Y, Y, 'No siempre'],
+    ['Inversiones en acciones', Y, 'Otra cuenta', 'Limitadas'],
+    ['Préstamo simulado al instante', Y, 'Con papeles', Y],
+    ['Todo en una sola app', Y, 'Varias apps', Y],
+    ['Atención las 24 horas', Y, 'Horario bancario', Y],
+    ['Abrir la cuenta', 'Gratis, 2 min', 'Con turno', 'Gratis'],
   ];
   const d = (r, c) => 0.6 + r * 0.16 + c * 0.06 + 's';
   return html`<div className="slide"><${Bg} /><div className="content">
-    <${K}>Comparación</${K}>
-    <h2 className="title in" style=${{ '--i': 1, maxWidth: '26ch' }}>Lo mejor de un banco real, <span className="mint">pensado para aprender</span></h2>
+    <${K}>¿Por qué Tree Bank?</${K}>
+    <h2 className="title in" style=${{ '--i': 1, maxWidth: '26ch' }}>Lo seguro de un banco, <span className="mint">lo simple de una app</span></h2>
     <div className="cmp">
       <div className="cmp-hl" aria-hidden="true"></div>
       <div className="c h" style=${{ animationDelay: '.3s' }}></div>
       <div className="c h tb" style=${{ animationDelay: '.4s' }}><${Mark} />Tree Bank</div>
-      <div className="c h" style=${{ animationDelay: '.45s' }}>Simulador típico</div>
-      <div className="c h" style=${{ animationDelay: '.5s' }}>Banco real</div>
+      <div className="c h" style=${{ animationDelay: '.45s' }}>Banco tradicional</div>
+      <div className="c h" style=${{ animationDelay: '.5s' }}>Billetera virtual</div>
       ${rows.map(([l, a, b, c], r) => html`<${React.Fragment} key=${r}>
         <div className="c l" style=${{ animationDelay: d(r, 0) }}>${l}</div>
         <div className="c v tb" style=${{ animationDelay: d(r, 1) }}>${typeof a === 'string' ? html`<span>${a}</span>` : a}</div>
@@ -973,7 +973,7 @@ function Cierre() {
     <${Scene} left="TU PLATA" right="CRECE" sub="Tu banco, tu naturaleza" fs=${128} />
     <div className="cover-ui">
       <div className="cover-top"><div className="wm"><${Mark} />TREE BANK</div><p>Gracias · ¿Preguntas?</p></div>
-      <p className="cover-lead">Proponemos <span>un curso piloto con Tree Bank en la TSGA en 2027.</span></p>
+      <p className="cover-lead">Abrí tu cuenta hoy: <span>escaneá el QR y empezá a hacer crecer tu plata.</span></p>
       <div className="cover-bottom">
         <div className="team">${['Carrara Gianluca', 'Berterame Braian', 'Paez Milton'].map((n) => html`<${Tag} key=${n} bordered=${false}>${n}</${Tag}>`)}</div>
         <div className="qrbox"><${QRCode} value=${APP} size=${86} bordered=${false} color="#10261c" bgColor="#ffffff" /><div><small>Escanee para ingresar</small><b>tree-bank1.netlify.app</b></div></div>
@@ -983,20 +983,20 @@ function Cierre() {
 }
 
 const SLIDES = [
-  [Cover, 'EXPOSITOR 1 · 30 s. «Buenas. Somos Gianluca, Braian y Milton, y les presentamos Tree Bank: un banco digital que hace crecer tu plata.» Señalar el QR: «Pueden escanearlo ahora: el banco ya está funcionando.» Antes de empezar, la app tiene que estar abierta desde hace 10 minutos para despertar el servidor.'],
-  [Problema, 'EXPOSITOR 1 · 40 s. Arrancar por el problema, no por «nosotros hicimos». «Hoy un alumno de Gestión Administrativa aprende cómo funciona un banco en papel, con ejemplos inventados. Nunca abrió una cuenta ni vio un movimiento real antes de su primer trabajo.» Esperar a que se tachen los puntos y señalar la flecha: «Con Tree Bank, eso cambia.»'],
+  [Cover, 'EXPOSITOR 1 · 30 s. «Buenas. Somos Gianluca, Braian y Milton, y les presentamos Tree Bank: el banco que hace crecer tu plata desde el celular.» Señalar el QR: «Pueden escanearlo ahora, el banco ya está funcionando.» Antes de empezar, abrir la app 10 minutos antes para despertar el servidor.'],
+  [Problema, 'EXPOSITOR 1 · 40 s. Hablarle al público como clientes: «¿A quién le tocó hacer una cola en el banco? ¿O tener la plata quieta perdiendo valor?» Esperar a que se tachen los puntos y señalar la flecha: «Con Tree Bank, todo eso se resuelve desde el celular.»'],
   [Propuesta, 'EXPOSITOR 1 · 45 s. Esperar a que la tarjeta se arme. «La gente quiere manejar su plata desde el celular, sin colas, y con la tranquilidad de que nada se pierde. Tree Bank hace eso: todo el banco en una app, en pesos y dólares, y conectado al Banco Central con CBU y alias reales, igual que un banco de verdad.»'],
   [Servicios, 'EXPOSITOR 2 · DEMO EN VIVO, 2 min. «Tenemos ocho servicios, pero les mostramos tres.» En la app: 1) iniciar sesión (no usar el DNI 28999888), 2) mostrar el saldo, 3) hacer una transferencia, 4) abrir Movimientos y mostrar los gráficos. Volver a la presentación con la tecla →.'],
   [Transferencias, 'EXPOSITOR 2 · 30 s. «Las transferencias funcionan con los bancos de los otros grupos: las procesa el Banco Central, como pasa en la realidad.» Si preguntan por qué no llega al instante: la sincronización con el Banco Central corre cada 15 minutos.'],
   [Inversiones, 'EXPOSITOR 2 · 30 s. «Tu plata puede trabajar: acciones argentinas y de EE.UU. con precios reales del mercado, y cauciones.» Si preguntan: los precios vienen de data912 y Yahoo Finance; la tasa de caución es simulada porque BYMA no la publica gratis.'],
   [Prestamos, 'EXPOSITOR 2 · 45 s. Usar el simulador en vivo: mover el monto y cambiar las cuotas. «Prestamos con responsabilidad: el máximo depende de lo que el cliente realmente mueve en el banco, y antes se consulta la Central de Deudores.»'],
+  [Comparacion, 'EXPOSITOR 3 · 40 s. «¿Por qué Tree Bank y no tu banco de siempre o una billetera virtual?» Leer la columna verde de arriba abajo. Idea clave: «El banco tradicional es seguro pero lento; la billetera es simple pero no es un banco. Tree Bank tiene las dos cosas: CBU propio, dólares e inversiones, todo en una app.»'],
   [Seguridad, 'EXPOSITOR 3 · 30 s. «La confianza es lo más importante en un banco.» Contraseñas cifradas, sesión de 8 horas, bloqueo después de 10 intentos fallidos y errores que no muestran nada interno.'],
   [Integridad, 'EXPOSITOR 3 · 45 s. El dato que vende: «Probamos 30 pagos al mismo tiempo sobre una cuenta con $20.000: se aprobaron 4 y el saldo nunca quedó en negativo.» Si se corta todo a mitad de una operación, se deshace y nadie pierde plata.'],
-  [Administracion, 'EXPOSITOR 3 · 30 s. «El banco se controla con tres roles: cliente, empleado que solo consulta, y administrador. Nadie puede darse permisos solo: los asigna el equipo técnico.» Opcional: mostrar en la app el panel de admin bloqueando una cuenta.'],
+  [Administracion, 'EXPOSITOR 3 · 30 s. «Detrás de la app hay un equipo que cuida tu cuenta: si perdés el celular, la bloqueamos al instante, y la reactivamos cuando lo pidas.» Opcional: mostrar en la app el panel de administración bloqueando una cuenta.'],
   [Probado, 'EXPOSITOR 3 · 30 s. «No es una maqueta: funciona hoy.» Leer los números despacio, de a uno: 80 pruebas aprobadas, 25 clientes con historial, 369 movimientos, cero saldos negativos, 800 pedidos por segundo.'],
-  [Comparacion, 'EXPOSITOR 3 · 40 s. «¿Por qué Tree Bank y no otra cosa?» Leer la columna verde de arriba abajo. Idea clave: «Un simulador no tiene conexión real; un banco real no deja enseñar con sus datos. Tree Bank tiene las dos cosas, y gratis.» No criticar a los bancos reales: comparamos contra lo que el instituto puede usar hoy.'],
-  [Instituto, 'EXPOSITOR 1 · 45 s. «Y esto no termina en una nota. La consigna dice que estos bancos van a usarse en la Tecnicatura en Gestión Administrativa. Tree Bank ya está listo: procesos reales, datos para analizar, roles y documentación para que cualquiera lo use y lo mantenga.»'],
-  [Cierre, 'EXPOSITOR 1 · 30 s. El pedido, en voz alta y despacio: «Proponemos un curso piloto con Tree Bank en la TSGA en 2027.» Después, quedarse callados y esperar la respuesta. Agradecer y abrir preguntas.\n\nPREGUNTAS DIFÍCILES\n¿Y si se cae? → Está en la nube (Render y Supabase). Si una operación falla a la mitad, se deshace sola: nadie pierde plata.\n¿Es seguro? → Contraseñas cifradas, sesión que vence a las 8 horas, bloqueo tras 10 intentos y cada rol ve solo lo suyo. 80 pruebas automáticas lo verifican.\n¿Quién lo mantiene cuando se reciban? → Está documentado en Notion para instalarlo, usarlo y mantenerlo sin experiencia previa.\n¿Cuánto cuesta? → Hoy nada: corre en planes gratuitos. Con muchos alumnos a la vez conviene un plan pago, de bajo costo.\n¿Por qué a veces tarda en abrir? → El servidor gratuito se duerme si nadie lo usa; con un plan pago desaparece.\n¿Aguanta un curso entero? → Lo probamos con 25 usuarios a la vez: 800 pedidos por segundo sin errores.'],
+  [Instituto, 'EXPOSITOR 1 · 30 s. «Empezar es así de fácil: escaneás el QR, te registrás con tu DNI y en dos minutos tenés tu CBU y tu alias.» Si hay tiempo, invitar a alguien del público a registrarse en vivo.'],
+  [Cierre, 'EXPOSITOR 1 · 30 s. El llamado a la acción, en voz alta: «Abrí tu cuenta hoy. Escaneá el QR y empezá a hacer crecer tu plata con Tree Bank.» Dejar el QR en pantalla, agradecer y abrir preguntas.\n\nPREGUNTAS DIFÍCILES\n¿Es seguro? → Contraseñas cifradas, sesión que vence a las 8 horas, bloqueo tras 10 intentos fallidos y 80 pruebas automáticas que lo verifican.\n¿Y si se corta en medio de una transferencia? → La operación se deshace sola: nadie pierde plata.\n¿Por qué una transferencia a otro banco no llega al instante? → La procesa el Banco Central, que sincroniza cada 15 minutos, como en la realidad.\n¿De dónde salen los precios de las acciones? → De mercados reales (data912 y Yahoo Finance). La tasa de caución es simulada.\n¿Por qué a veces tarda en abrir? → El servidor gratuito se duerme si nadie lo usa; con un plan pago desaparece.\n¿Aguanta muchos clientes? → Lo probamos con 25 usuarios a la vez: 800 pedidos por segundo sin errores.'],
 ];
 
 function readHash() { const m = /^#s(\d+)$/.exec(location.hash || ''); const n = m ? parseInt(m[1], 10) - 1 : 0; return n >= 0 && n < SLIDES.length ? n : 0; }
