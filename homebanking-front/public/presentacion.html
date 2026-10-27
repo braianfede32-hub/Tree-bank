@@ -1084,7 +1084,6 @@ function Deck() {
       else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); go((c) => c - 1); }
       else if (e.key === 'Home') go(0); else if (e.key === 'End') go(SLIDES.length - 1);
       else if (e.key.toLowerCase() === 'n') setNotes((v) => !v);
-      else if (e.key.toLowerCase() === 't') setT0(Date.now());
       else if (e.key.toLowerCase() === 'f') { const d = document.documentElement; if (!document.fullscreenElement && d.requestFullscreen) d.requestFullscreen().catch(() => {}); else if (document.exitFullscreen) document.exitFullscreen().catch(() => {}); }
     };
     const hc = () => setI(readHash());
@@ -1092,12 +1091,6 @@ function Deck() {
     return () => { removeEventListener('resize', fit); removeEventListener('keydown', key); removeEventListener('hashchange', hc); };
   }, [go]);
   const [S, secs, note] = SLIDES[i];
-  const [t0, setT0] = useState(null);
-  const [now, setNow] = useState(Date.now());
-  useEffect(() => { const id = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(id); }, []);
-  useEffect(() => { if (i > 0 && t0 === null) setT0(Date.now()); }, [i]);
-  const el = t0 === null ? 0 : (now - t0) / 1000;
-  const tstate = el > TOTAL ? 'over' : el > ENDS[i] + 15 ? 'late' : '';
   CUR = i;
   const tilt = (e) => {
     const el = e.target.closest && e.target.closest('.tilt3d'); if (!el) return;
@@ -1112,12 +1105,11 @@ function Deck() {
       <${Tooltip} title="Anterior (←)"><${Button} shape="circle" type="text" icon=${html`<${I.LeftOutlined} />`} onClick=${() => go(i - 1)} disabled=${i === 0} aria-label="Diapositiva anterior" /></${Tooltip}>
       <div className="dots">${SLIDES.map((_, k) => html`<button key=${k} className=${k === i ? 'on' : ''} onClick=${() => go(k)} aria-label=${'Ir a la diapositiva ' + (k + 1)}></button>`)}</div>
       <span className="counter">${i + 1} / ${SLIDES.length}</span>
-      <${Tooltip} title=${'Tiempo de exposición · esta diapositiva debería terminar en ' + mmss(ENDS[i]) + ' (T reinicia)'}><span className=${'timer ' + tstate}><${I.FieldTimeOutlined} /> ${mmss(el)} / ${mmss(TOTAL)}</span></${Tooltip}>
       <${Tooltip} title="Siguiente (→)"><${Button} shape="circle" type="text" icon=${html`<${I.RightOutlined} />`} onClick=${() => go(i + 1)} disabled=${i === SLIDES.length - 1} aria-label="Diapositiva siguiente" /></${Tooltip}>
       <${Tooltip} title="Notas del orador (N)"><${Button} shape="circle" type="text" icon=${html`<${I.ProfileOutlined} />`} onClick=${() => setNotes(true)} aria-label="Ver notas del orador" /></${Tooltip}>
       <${Tooltip} title="Pantalla completa (F)"><${Button} shape="circle" type="text" icon=${html`<${I.FullscreenOutlined} />`} onClick=${() => { const d = document.documentElement; if (d.requestFullscreen) d.requestFullscreen().catch(() => {}); }} aria-label="Pantalla completa" /></${Tooltip}>
     </div>
-    <${Drawer} title=${'Notas · diapositiva ' + (i + 1) + ' · ⏱ ' + mmss(secs) + ' · terminar en ' + mmss(ENDS[i]) + ' de ' + mmss(TOTAL)} placement="bottom" height=${300} open=${notes} onClose=${() => setNotes(false)}><p className="notes-text">${note}</p></${Drawer}>
+    <${Drawer} title=${'Notas · diapositiva ' + (i + 1)} placement="bottom" height=${300} open=${notes} onClose=${() => setNotes(false)}><p className="notes-text">${note}</p></${Drawer}>
   </${ConfigProvider}>`;
 }
 
