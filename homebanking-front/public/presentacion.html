@@ -371,6 +371,43 @@ body { margin: 0; overflow: hidden; background: #020805; color: var(--on-dark); 
 .cv-orbit { position: absolute; left: 20px; top: 70px; width: 490px; height: 560px; border-radius: 50%; border: 1px dashed rgba(245, 196, 81, .22); transform: rotateX(68deg) rotateZ(-14deg); animation: fade 1s ease 1s both; }
 .cv-coin { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff3c4, #f5c451 50%, #b8860b); box-shadow: 0 0 18px rgba(245, 196, 81, .7); display: grid; place-items: center; color: #6b4a00; font-weight: 800; font-size: 15px; font-family: var(--font-brand); offset-path: path('M 0 -230 A 240 230 0 1 1 0 230 A 240 230 0 1 1 0 -230'); animation: cvorb 9s linear infinite; }
 @keyframes cvorb { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+
+/* Problema: antes y después */
+.pb { display: grid; grid-template-columns: 1fr 120px 1fr; align-items: stretch; margin-top: 44px; }
+.pb-col { position: relative; padding: 30px 34px; border-radius: 26px; border: 1px solid var(--line); }
+.pb-col.old { background: rgba(40, 20, 16, .35); border-color: rgba(255, 120, 100, .18); }
+.pb-col.new { background: linear-gradient(160deg, rgba(16, 185, 129, .16), rgba(10, 33, 23, .7)); border-color: rgba(110, 231, 183, .35); box-shadow: 0 30px 80px -40px rgba(16, 185, 129, .6); }
+.pb-col h3 { margin: 0 0 20px; font-family: var(--font-brand); font-size: 15px; letter-spacing: .2em; text-transform: uppercase; }
+.pb-col.old h3 { color: #f4a493; } .pb-col.new h3 { color: var(--mint); }
+.pb-it { display: flex; align-items: center; gap: 14px; padding: 13px 0; font-size: 22px; border-bottom: 1px solid rgba(255, 255, 255, .06); opacity: 0; animation: fade .5s ease forwards; }
+.pb-it:last-child { border-bottom: 0; }
+.pb-it .anticon { font-size: 22px; flex: none; }
+.old .pb-it { color: var(--on-dark-soft); } .old .pb-it .anticon { color: #e8806b; }
+.old .pb-it span { position: relative; }
+.old .pb-it span::after { content: ""; position: absolute; left: 0; top: 55%; height: 2px; width: 0; background: #e8806b; animation: strike .5s ease forwards; animation-delay: inherit; }
+.pb-it.s span::after { animation-delay: var(--sd); }
+@keyframes strike { to { width: 100%; } }
+.new .pb-it { color: #fff; } .new .pb-it .anticon { color: var(--mint); animation: pop .6s cubic-bezier(.2, 1.4, .4, 1) both; animation-delay: inherit; }
+.pb-mid { display: grid; place-items: center; position: relative; }
+.pb-mid::before { content: ""; position: absolute; top: 10%; bottom: 10%; left: 50%; width: 2px; background: linear-gradient(180deg, transparent, rgba(245, 196, 81, .6), transparent); }
+.pb-arrow { position: relative; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-size: 26px; color: #04120b; background: linear-gradient(135deg, var(--gold), var(--mint)); box-shadow: 0 0 0 0 rgba(245, 196, 81, .6); animation: pop .7s cubic-bezier(.2, 1.4, .4, 1) 1.9s both, cvlive 2s ease-out 2.6s infinite; }
+/* Comparación */
+.cmp { position: relative; margin-top: 36px; display: grid; grid-template-columns: 1.35fr 1fr 1fr 1fr; border-radius: 24px; background: rgba(10, 33, 23, .55); border: 1px solid var(--line); }
+.cmp-hl { position: absolute; top: -14px; bottom: -14px; left: calc(1.35 / 4.35 * 100%); width: calc(1 / 4.35 * 100%); border-radius: 22px; background: linear-gradient(180deg, rgba(16, 185, 129, .22), rgba(16, 185, 129, .08)); border: 1.5px solid rgba(110, 231, 183, .55); box-shadow: 0 0 60px -10px rgba(16, 185, 129, .55); animation: cmphl 1s cubic-bezier(.2, .9, .1, 1) .3s both; }
+@keyframes cmphl { from { opacity: 0; transform: scaleY(.6); } }
+.cmp-hl::before { content: "Nuestra propuesta"; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); padding: 4px 14px; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--mint)); color: #04120b; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.cmp > div.c { position: relative; padding: 14px 20px; display: flex; align-items: center; font-size: 18px; border-top: 1px solid rgba(167, 243, 208, .07); opacity: 0; animation: fade .45s ease forwards; }
+.cmp > div.c.h { border-top: 0; padding-top: 22px; padding-bottom: 16px; font-family: var(--font-brand); font-weight: 700; font-size: 19px; color: #fff; justify-content: center; }
+.cmp > div.c.h.tb { color: var(--mint-soft); font-size: 22px; gap: 10px; }
+.cmp > div.c.h.tb svg { width: 28px; height: 28px; }
+.cmp > div.c.l { color: var(--on-dark); font-weight: 500; }
+.cmp > div.c.v { justify-content: center; color: var(--on-dark-soft); font-size: 15px; }
+.cmp > div.c.v .anticon { font-size: 24px; }
+.cmp .y { color: var(--mint); } .cmp .n { color: #c96a5a; opacity: .8; }
+.cmp .tb.v { color: #fff; font-weight: 600; font-size: 16px; }
+.cmp .tb .y { filter: drop-shadow(0 0 8px rgba(110, 231, 183, .7)); }
+.cmp > div.c.v > * { animation: pop .5s cubic-bezier(.2, 1.4, .4, 1) both; animation-delay: inherit; }
+.notes-text { white-space: pre-line; }
 </style>
 </head>
 <body>
@@ -640,7 +677,8 @@ function Bg() {
   </svg></div>`;
 }
 
-function Foot({ n }) { return html`<div className="foot"><span><b>Tree Bank</b> · Prácticas Profesionalizantes II</span><span>${String(n).padStart(2, '0')} / 12</span></div>`; }
+let CUR = 0;
+function Foot() { return html`<div className="foot"><span><b>Tree Bank</b> · Prácticas Profesionalizantes II</span><span>${String(CUR + 1).padStart(2, '0')} / ${SLIDES.length}</span></div>`; }
 function K({ children }) { return html`<div className="kicker in">${children}</div>`; }
 
 /* ---------- Diapositivas ---------- */
@@ -709,7 +747,7 @@ function Propuesta() {
       </div>
       <${ParticleCard} />
     </div>
-  </div><${Foot} n=${2} /></div>`;
+  </div><${Foot} /></div>`;
 }
 
 function Servicios() {
@@ -720,7 +758,7 @@ function Servicios() {
     <${K}>Servicios</${K}>
     <h2 className="title in" style=${{ '--i': 1 }}>Ocho servicios, <span className="gold">una sola app</span></h2>
     <div className="grid8">${S.map(([Ic, t, d, c], i) => html`<${Card} key=${i} className="glass svc pop tilt3d" style=${{ '--i': i }} onMouseMove=${glow}><div className=${'ico ' + c}><${Ic} /></div><h3 className="card-h">${t}</h3><p className="card-p">${d}</p></${Card}>`)}</div>
-  </div><${Foot} n=${3} /></div>`;
+  </div><${Foot} /></div>`;
 }
 
 function Transferencias() {
@@ -748,7 +786,7 @@ function Transferencias() {
         <${Badge} status="processing" color="#6ee7b7" text=${html`<span style=${{ color: '#6ee7b7', fontSize: 16 }}>Sincronización cada 15 minutos</span>`} />
       </${Card}>
     </div>
-  </div><${Foot} n=${4} /></div>`;
+  </div><${Foot} /></div>`;
 }
 
 function Spark({ d, end }) {
@@ -767,7 +805,7 @@ function Inversiones() {
       <${Card} className="glass in" style=${{ '--i': 5 }}><h3 className="card-h">Cauciones</h3><p className="card-p">De 1 a 365 días, de 11 a 17 hs.</p><${Spark} d="M0 92 C 60 60, 120 46, 180 38 S 260 31, 300 29" end=${29} /></${Card}>
     </div>
     <div className="banner in" style=${{ '--i': 6 }}><${I.SafetyCertificateOutlined} style=${{ fontSize: 28, color: '#f5c451' }} /><div><b>Precios de mercado.</b> El precio de cada operación lo establece siempre el banco.</div></div>
-  </div><${Foot} n=${5} /></div>`;
+  </div><${Foot} /></div>`;
 }
 
 function Prestamos() {
@@ -790,7 +828,7 @@ function Prestamos() {
       </${ConfigProvider}>
       <div className="rules">${R.map(([Ic, t, d], i) => html`<div key=${i} className="rule in" style=${{ '--i': 3 + i }}><div className="ico g"><${Ic} /></div><div><h3>${t}</h3><p>${d}</p></div></div>`)}</div>
     </div>
-  </div><${Foot} n=${6} /></div>`;
+  </div><${Foot} /></div>`;
 }
 
 function Seguridad() {
@@ -805,7 +843,7 @@ function Seguridad() {
       <${Progress} type="circle" percent=${p} size=${92} strokeColor=${{ '0%': '#f5c451', '100%': '#6ee7b7' }} trailColor="rgba(167,243,208,.12)" format=${() => html`<${I.SafetyOutlined} style=${{ fontSize: 30, color: '#6ee7b7' }} />`} />
       <div><h3 className="card-h" style=${{ fontSize: 22 }}>Sin exposición de detalles internos</h3><p className="card-p">Los errores no revelan información del sistema, y nunca se devuelve el hash de una contraseña.</p></div>
     </div>
-  </div><${Foot} n=${7} /></div>`;
+  </div><${Foot} /></div>`;
 }
 
 function Integridad() {
@@ -819,7 +857,7 @@ function Integridad() {
         <${Timeline} className="tl" items=${[{ color: 'gray', children: 'Saldo disponible: $ 10.000' }, { color: 'green', children: 'Pedido A: $ 8.000 → aprobado' }, { color: 'red', children: 'Pedido B: $ 8.000 → sin saldo' }, { color: 'gold', children: 'Saldo final: $ 2.000' }]} /></${Card}>
     </div>
     <div className="ops in" style=${{ '--i': 5 }}><span style=${{ color: '#a3bfb1', fontSize: 16, alignSelf: 'center', marginRight: 6 }}>Aplica a todas las operaciones que mueven saldo:</span>${['Transferencias', 'Depósitos', 'Préstamos', 'Tarjetas', 'Seguros', 'Inversiones', 'Cambio', 'Pagos', 'Recargas'].map((t) => html`<${Tag} key=${t} color="green" bordered=${false}>${t}</${Tag}>`)}</div>
-  </div><${Foot} n=${8} /></div>`;
+  </div><${Foot} /></div>`;
 }
 
 function Administracion() {
@@ -837,7 +875,7 @@ function Administracion() {
         <div className="roles3"><${Tag} color="green">Cliente</${Tag}><${Tag} color="cyan">Empleado · solo consulta</${Tag}><${Tag} color="gold">Administrador</${Tag}></div>
       </${Card}>
     </div>
-  </div><${Foot} n=${9} /></div>`;
+  </div><${Foot} /></div>`;
 }
 
 
@@ -868,11 +906,11 @@ function Probado() {
       <div className="proof-t">${t}</div><div className="proof-d">${d}</div>
       <div className="proof-bar"><i style=${{ animationDelay: 0.6 + i * 0.12 + 's' }}></i></div>
     </div>`)}</div>
-  </div><${Foot} n=${10} /></div>`;
+  </div><${Foot} /></div>`;
 }
 
 function Instituto() {
-  const steps = [['2026', 'Nosotros lo construimos', 'Analistas de Sistemas: base de datos, servidor, app y documentación.'], ['2027', 'La TSGA aprende con él', 'Alumnos de Gestión Administrativa abren cuentas, auditan movimientos y arman reportes.'], ['Después', 'Mundo real', 'Administradores que entienden la tecnología y analistas que entienden la gestión.']];
+  const steps = [['2026', 'Nosotros lo construimos', 'Analistas de Sistemas: base de datos, servidor, app y documentación.'], ['2027', 'Curso piloto en la TSGA', 'Un curso de Gestión Administrativa abre cuentas, audita movimientos y arma reportes.'], ['Después', 'Mundo real', 'Administradores que entienden la tecnología y analistas que entienden la gestión.']];
   const V = [[I.ApartmentOutlined, 'Procesos reales', 'Abrir una cuenta, transferir, emitir un comprobante.'], [I.DatabaseOutlined, 'Datos para analizar', '25 clientes y 369 movimientos listos para reportes.'], [I.SafetyCertificateOutlined, 'Control de acceso', 'Cliente, empleado y administrador, como en un banco.'], [I.ReadOutlined, 'Documentación completa', 'Para usarlo, instalarlo y mantenerlo sin experiencia previa.']];
   return html`<div className="slide"><${Bg} /><div className="content">
     <${K}>Para el instituto</${K}>
@@ -882,7 +920,52 @@ function Instituto() {
       ${steps.map(([y, t, d], i) => html`<div key=${i} className="road-step" style=${{ animationDelay: 0.5 + i * 0.45 + 's' }}><span className="road-dot"></span><b>${y}</b><h3>${t}</h3><p>${d}</p></div>`)}
     </div>
     <div className="vals">${V.map(([Ic, t, d], i) => html`<div key=${i} className="val pop" style=${{ '--i': i + 5 }}><div className="ico g"><${Ic} /></div><div><h3>${t}</h3><p>${d}</p></div></div>`)}</div>
-  </div><${Foot} n=${11} /></div>`;
+  </div><${Foot} /></div>`;
+}
+
+function Problema() {
+  const old = ['Procesos bancarios aprendidos en papel', 'Ejemplos inventados, sin datos reales', 'Nadie ve cómo funciona un banco por dentro', 'Sin práctica antes del primer trabajo'];
+  const nw = ['Abrir cuentas y operar en un sistema real', '25 clientes y 369 movimientos para analizar', 'Roles de cliente, empleado y administrador', 'Práctica desde el primer día, gratis'];
+  return html`<div className="slide"><${Bg} /><div className="content">
+    <${K}>El problema</${K}>
+    <h2 className="title in" style=${{ '--i': 1, maxWidth: '24ch' }}>Hoy la banca se aprende <span className="gold">sin tocar un banco</span></h2>
+    <div className="pb">
+      <div className="pb-col old in" style=${{ '--i': 2 }}><h3>Hoy</h3>${old.map((s, k) => html`<div key=${k} className="pb-it" style=${{ animationDelay: 0.4 + k * 0.15 + 's' }}><${I.CloseCircleOutlined} /><span style=${{ animationDelay: 1.1 + k * 0.18 + 's' }}>${s}</span></div>`)}</div>
+      <div className="pb-mid"><div className="pb-arrow"><${I.ArrowRightOutlined} /></div></div>
+      <div className="pb-col new in tilt3d" style=${{ '--i': 4 }}><h3>Con Tree Bank</h3>${nw.map((s, k) => html`<div key=${k} className="pb-it" style=${{ animationDelay: 2.1 + k * 0.18 + 's' }}><${I.CheckCircleFilled} /><span>${s}</span></div>`)}</div>
+    </div>
+  </div><${Foot} /></div>`;
+}
+
+function Comparacion() {
+  const Y = html`<${I.CheckCircleFilled} className="y" />`, N = html`<${I.CloseCircleFilled} className="n" />`;
+  const rows = [
+    ['CBU y alias reales', Y, N, Y],
+    ['Transferencias entre bancos', Y, N, Y],
+    ['Pesos y dólares', Y, 'A veces', Y],
+    ['Cliente, empleado y administrador', Y, N, 'Sin acceso'],
+    ['Datos listos para analizar', Y, N, 'Confidenciales'],
+    ['Se puede usar para enseñar', Y, Y, N],
+    ['Costo para el instituto', 'Gratis', 'Licencia', 'No aplica'],
+  ];
+  const d = (r, c) => 0.6 + r * 0.16 + c * 0.06 + 's';
+  return html`<div className="slide"><${Bg} /><div className="content">
+    <${K}>Comparación</${K}>
+    <h2 className="title in" style=${{ '--i': 1, maxWidth: '26ch' }}>Lo mejor de un banco real, <span className="mint">pensado para aprender</span></h2>
+    <div className="cmp">
+      <div className="cmp-hl" aria-hidden="true"></div>
+      <div className="c h" style=${{ animationDelay: '.3s' }}></div>
+      <div className="c h tb" style=${{ animationDelay: '.4s' }}><${Mark} />Tree Bank</div>
+      <div className="c h" style=${{ animationDelay: '.45s' }}>Simulador típico</div>
+      <div className="c h" style=${{ animationDelay: '.5s' }}>Banco real</div>
+      ${rows.map(([l, a, b, c], r) => html`<${React.Fragment} key=${r}>
+        <div className="c l" style=${{ animationDelay: d(r, 0) }}>${l}</div>
+        <div className="c v tb" style=${{ animationDelay: d(r, 1) }}>${typeof a === 'string' ? html`<span>${a}</span>` : a}</div>
+        <div className="c v" style=${{ animationDelay: d(r, 2) }}>${typeof b === 'string' ? html`<span>${b}</span>` : b}</div>
+        <div className="c v" style=${{ animationDelay: d(r, 3) }}>${typeof c === 'string' ? html`<span>${c}</span>` : c}</div>
+      </${React.Fragment}>`)}
+    </div>
+  </div><${Foot} /></div>`;
 }
 
 function Cierre() {
@@ -890,7 +973,7 @@ function Cierre() {
     <${Scene} left="TU PLATA" right="CRECE" sub="Tu banco, tu naturaleza" fs=${128} />
     <div className="cover-ui">
       <div className="cover-top"><div className="wm"><${Mark} />TREE BANK</div><p>Gracias · ¿Preguntas?</p></div>
-      <p className="cover-lead">Proponemos <span>Tree Bank como banco de práctica de la TSGA en 2027.</span></p>
+      <p className="cover-lead">Proponemos <span>un curso piloto con Tree Bank en la TSGA en 2027.</span></p>
       <div className="cover-bottom">
         <div className="team">${['Carrara Gianluca', 'Berterame Braian', 'Paez Milton'].map((n) => html`<${Tag} key=${n} bordered=${false}>${n}</${Tag}>`)}</div>
         <div className="qrbox"><${QRCode} value=${APP} size=${86} bordered=${false} color="#10261c" bgColor="#ffffff" /><div><small>Escanee para ingresar</small><b>tree-bank1.netlify.app</b></div></div>
@@ -901,6 +984,7 @@ function Cierre() {
 
 const SLIDES = [
   [Cover, 'EXPOSITOR 1 · 30 s. «Buenas. Somos Gianluca, Braian y Milton, y les presentamos Tree Bank: un banco digital que hace crecer tu plata.» Señalar el QR: «Pueden escanearlo ahora: el banco ya está funcionando.» Antes de empezar, la app tiene que estar abierta desde hace 10 minutos para despertar el servidor.'],
+  [Problema, 'EXPOSITOR 1 · 40 s. Arrancar por el problema, no por «nosotros hicimos». «Hoy un alumno de Gestión Administrativa aprende cómo funciona un banco en papel, con ejemplos inventados. Nunca abrió una cuenta ni vio un movimiento real antes de su primer trabajo.» Esperar a que se tachen los puntos y señalar la flecha: «Con Tree Bank, eso cambia.»'],
   [Propuesta, 'EXPOSITOR 1 · 45 s. Esperar a que la tarjeta se arme. «La gente quiere manejar su plata desde el celular, sin colas, y con la tranquilidad de que nada se pierde. Tree Bank hace eso: todo el banco en una app, en pesos y dólares, y conectado al Banco Central con CBU y alias reales, igual que un banco de verdad.»'],
   [Servicios, 'EXPOSITOR 2 · DEMO EN VIVO, 2 min. «Tenemos ocho servicios, pero les mostramos tres.» En la app: 1) iniciar sesión (no usar el DNI 28999888), 2) mostrar el saldo, 3) hacer una transferencia, 4) abrir Movimientos y mostrar los gráficos. Volver a la presentación con la tecla →.'],
   [Transferencias, 'EXPOSITOR 2 · 30 s. «Las transferencias funcionan con los bancos de los otros grupos: las procesa el Banco Central, como pasa en la realidad.» Si preguntan por qué no llega al instante: la sincronización con el Banco Central corre cada 15 minutos.'],
@@ -910,8 +994,9 @@ const SLIDES = [
   [Integridad, 'EXPOSITOR 3 · 45 s. El dato que vende: «Probamos 30 pagos al mismo tiempo sobre una cuenta con $20.000: se aprobaron 4 y el saldo nunca quedó en negativo.» Si se corta todo a mitad de una operación, se deshace y nadie pierde plata.'],
   [Administracion, 'EXPOSITOR 3 · 30 s. «El banco se controla con tres roles: cliente, empleado que solo consulta, y administrador. Nadie puede darse permisos solo: los asigna el equipo técnico.» Opcional: mostrar en la app el panel de admin bloqueando una cuenta.'],
   [Probado, 'EXPOSITOR 3 · 30 s. «No es una maqueta: funciona hoy.» Leer los números despacio, de a uno: 80 pruebas aprobadas, 25 clientes con historial, 369 movimientos, cero saldos negativos, 800 pedidos por segundo.'],
+  [Comparacion, 'EXPOSITOR 3 · 40 s. «¿Por qué Tree Bank y no otra cosa?» Leer la columna verde de arriba abajo. Idea clave: «Un simulador no tiene conexión real; un banco real no deja enseñar con sus datos. Tree Bank tiene las dos cosas, y gratis.» No criticar a los bancos reales: comparamos contra lo que el instituto puede usar hoy.'],
   [Instituto, 'EXPOSITOR 1 · 45 s. «Y esto no termina en una nota. La consigna dice que estos bancos van a usarse en la Tecnicatura en Gestión Administrativa. Tree Bank ya está listo: procesos reales, datos para analizar, roles y documentación para que cualquiera lo use y lo mantenga.»'],
-  [Cierre, 'EXPOSITOR 1 · 30 s. El pedido: «Proponemos usar Tree Bank como banco de práctica de la TSGA en 2027.» Agradecer y abrir preguntas. Respuestas rápidas: ¿seguro? 80 pruebas y contraseñas cifradas · ¿aguanta? 800 pedidos por segundo · ¿por qué tarda a veces? servidor gratuito que se duerme; con plan pago desaparece.'],
+  [Cierre, 'EXPOSITOR 1 · 30 s. El pedido, en voz alta y despacio: «Proponemos un curso piloto con Tree Bank en la TSGA en 2027.» Después, quedarse callados y esperar la respuesta. Agradecer y abrir preguntas.\n\nPREGUNTAS DIFÍCILES\n¿Y si se cae? → Está en la nube (Render y Supabase). Si una operación falla a la mitad, se deshace sola: nadie pierde plata.\n¿Es seguro? → Contraseñas cifradas, sesión que vence a las 8 horas, bloqueo tras 10 intentos y cada rol ve solo lo suyo. 80 pruebas automáticas lo verifican.\n¿Quién lo mantiene cuando se reciban? → Está documentado en Notion para instalarlo, usarlo y mantenerlo sin experiencia previa.\n¿Cuánto cuesta? → Hoy nada: corre en planes gratuitos. Con muchos alumnos a la vez conviene un plan pago, de bajo costo.\n¿Por qué a veces tarda en abrir? → El servidor gratuito se duerme si nadie lo usa; con un plan pago desaparece.\n¿Aguanta un curso entero? → Lo probamos con 25 usuarios a la vez: 800 pedidos por segundo sin errores.'],
 ];
 
 function readHash() { const m = /^#s(\d+)$/.exec(location.hash || ''); const n = m ? parseInt(m[1], 10) - 1 : 0; return n >= 0 && n < SLIDES.length ? n : 0; }
@@ -937,6 +1022,7 @@ function Deck() {
     return () => { removeEventListener('resize', fit); removeEventListener('keydown', key); removeEventListener('hashchange', hc); };
   }, [go]);
   const [S, note] = SLIDES[i];
+  CUR = i;
   const tilt = (e) => {
     const el = e.target.closest && e.target.closest('.tilt3d'); if (!el) return;
     const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
@@ -954,7 +1040,7 @@ function Deck() {
       <${Tooltip} title="Notas del orador (N)"><${Button} shape="circle" type="text" icon=${html`<${I.ProfileOutlined} />`} onClick=${() => setNotes(true)} aria-label="Ver notas del orador" /></${Tooltip}>
       <${Tooltip} title="Pantalla completa (F)"><${Button} shape="circle" type="text" icon=${html`<${I.FullscreenOutlined} />`} onClick=${() => { const d = document.documentElement; if (d.requestFullscreen) d.requestFullscreen().catch(() => {}); }} aria-label="Pantalla completa" /></${Tooltip}>
     </div>
-    <${Drawer} title=${'Notas · diapositiva ' + (i + 1)} placement="bottom" height=${220} open=${notes} onClose=${() => setNotes(false)}><p className="notes-text">${note}</p></${Drawer}>
+    <${Drawer} title=${'Notas · diapositiva ' + (i + 1)} placement="bottom" height=${300} open=${notes} onClose=${() => setNotes(false)}><p className="notes-text">${note}</p></${Drawer}>
   </${ConfigProvider}>`;
 }
 
