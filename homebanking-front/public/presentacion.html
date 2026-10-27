@@ -293,6 +293,84 @@ body { margin: 0; overflow: hidden; background: #020805; color: var(--on-dark); 
 .hint { position: fixed; z-index: 30; right: 16px; top: 12px; font-size: 12px; color: var(--on-dark-soft); opacity: .6; }
 .notes-text { font-size: 16px; line-height: 1.6; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* Portada: hero fintech (aurora, gráfico que crece, celular flotante con la app) */
+.cv { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(120% 90% at 75% 40%, #0b2a1d 0%, #04120b 55%, #020805 100%); font-family: var(--font-brand); }
+.cv-blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .55; animation: blob 14s ease-in-out infinite alternate; }
+.cv-blob.a { width: 620px; height: 620px; left: 900px; top: -160px; background: #10b981; }
+.cv-blob.b { width: 520px; height: 520px; left: 1180px; top: 420px; background: #f5c451; opacity: .28; animation-duration: 18s; }
+.cv-blob.c { width: 480px; height: 480px; left: -200px; top: 520px; background: #0e7a55; opacity: .35; animation-duration: 16s; }
+@keyframes blob { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-60px, 40px) scale(1.12); } 100% { transform: translate(40px, -30px) scale(.95); } }
+.cv-grid { position: absolute; inset: 0; background-image: radial-gradient(rgba(167, 243, 208, .16) 1.2px, transparent 1.2px); background-size: 34px 34px; -webkit-mask-image: radial-gradient(70% 70% at 70% 45%, #000 20%, transparent 75%); mask-image: radial-gradient(70% 70% at 70% 45%, #000 20%, transparent 75%); }
+.cv-chart { position: absolute; left: 0; bottom: 0; width: 1600px; height: 900px; pointer-events: none; }
+.cv-chart .ln { fill: none; stroke: url(#cvLine); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2200; stroke-dashoffset: 2200; animation: cvdraw 2.6s cubic-bezier(.6, 0, .2, 1) .5s forwards; filter: drop-shadow(0 0 10px rgba(110, 231, 183, .6)); }
+.cv-chart .ar { fill: url(#cvArea); opacity: 0; animation: fadeIn 1.6s ease 1.6s forwards; }
+.cv-chart .tip { opacity: 0; animation: fadeIn .5s ease 3s forwards; }
+.cv-chart .tip circle.p { animation: cvping 2s ease-out 3.1s infinite; transform-origin: 1505px 168px; }
+@keyframes cvdraw { to { stroke-dashoffset: 0; } }
+@keyframes cvping { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(3.2); opacity: 0; } }
+.cv-top { position: absolute; top: 44px; left: 80px; right: 80px; display: flex; justify-content: space-between; align-items: center; animation: fade 1s ease .2s both; }
+.cv-brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: .28em; font-size: 20px; color: #fff; }
+.cv-brand svg { width: 38px; height: 38px; }
+.cv-live { display: flex; align-items: center; gap: 10px; font-family: var(--font-ui); font-size: 14px; color: var(--on-dark-soft); padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: rgba(4, 16, 10, .5); backdrop-filter: blur(8px); }
+.cv-live i { width: 8px; height: 8px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 0 rgba(110, 231, 183, .7); animation: cvlive 1.8s ease-out infinite; }
+@keyframes cvlive { to { box-shadow: 0 0 0 12px rgba(110, 231, 183, 0); } }
+.cv-left { position: absolute; left: 80px; top: 170px; width: 820px; }
+.cv-eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px 8px 8px; border-radius: 999px; background: rgba(110, 231, 183, .08); border: 1px solid rgba(110, 231, 183, .22); color: var(--mint-soft); font-family: var(--font-ui); font-size: 15px; animation: fade 1s ease .4s both; }
+.cv-eyebrow b { background: var(--mint); color: #04120b; border-radius: 999px; padding: 3px 10px; font-size: 13px; font-weight: 700; }
+.cv-h { margin: 28px 0 0; font-size: 104px; line-height: .98; font-weight: 800; letter-spacing: -.035em; color: #fff; }
+.cv-h .row { display: block; overflow: hidden; padding-bottom: 8px; }
+.cv-h .w { display: inline-block; transform: translateY(110%); animation: cvword .9s cubic-bezier(.2, .9, .1, 1) forwards; }
+.cv-h .g { background: linear-gradient(100deg, #ffe2a8 0%, #f5c451 40%, #6ee7b7 100%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: cvword .9s cubic-bezier(.2, .9, .1, 1) forwards, cvsheen 5s linear 1.5s infinite; }
+@keyframes cvword { to { transform: translateY(0); } }
+@keyframes cvsheen { to { background-position: -200% 0; } }
+.cv-lead { margin: 26px 0 0; max-width: 720px; font-family: var(--font-ui); font-size: 23px; line-height: 1.5; color: var(--on-dark-soft); animation: fade 1s ease 1.3s both; }
+.cv-lead b { color: #fff; font-weight: 600; }
+.cv-bottom { position: absolute; left: 80px; bottom: 78px; display: flex; gap: 28px; align-items: center; pointer-events: auto; }
+.cv-bottom .team { animation-delay: 1.7s; }
+.cv-bottom .qrbox { animation-delay: 1.9s; }
+.cv-stage { position: absolute; left: 1010px; top: 110px; width: 520px; height: 720px; perspective: 1400px; }
+.cv-float { position: absolute; inset: 0; animation: cvfloat 6s ease-in-out infinite; }
+@keyframes cvfloat { 50% { transform: translateY(-14px); } }
+.cv-phone { position: absolute; left: 100px; top: 20px; width: 330px; height: 670px; border-radius: 48px; padding: 12px; background: linear-gradient(150deg, #2c3b33, #0b1410 60%, #22322a); box-shadow: 0 60px 120px rgba(0, 0, 0, .6), 0 0 0 1px rgba(255, 255, 255, .08) inset, -30px 30px 80px rgba(16, 185, 129, .18); transform: rotateY(-16deg) rotateX(6deg) rotateZ(2deg); transform-style: preserve-3d; animation: cvphone 1.4s cubic-bezier(.2, .9, .1, 1) .3s both; }
+@keyframes cvphone { from { opacity: 0; transform: translateY(120px) rotateY(-40deg) rotateX(20deg) rotateZ(6deg); } }
+.cv-screen { position: relative; width: 100%; height: 100%; border-radius: 38px; overflow: hidden; background: linear-gradient(180deg, #0d2a1e 0%, #071711 100%); font-family: var(--font-ui); color: #fff; padding: 46px 20px 20px; }
+.cv-notch { position: absolute; top: 12px; left: 50%; width: 96px; height: 26px; margin-left: -48px; border-radius: 20px; background: #000; }
+.cv-screen::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .09) 45%, transparent 55%); transform: translateX(-100%); animation: cvglare 6s ease-in-out 2.4s infinite; pointer-events: none; }
+@keyframes cvglare { 0%, 60% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+.cv-hi { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--on-dark-soft); }
+.cv-hi b { display: block; color: #fff; font-size: 17px; font-family: var(--font-brand); }
+.cv-av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--gold), var(--mint)); color: #04120b; font-weight: 800; }
+.cv-bal { margin-top: 18px; padding: 18px; border-radius: 22px; background: linear-gradient(140deg, #10b981, #0b6b4a 60%, #0a4a34); box-shadow: 0 16px 30px rgba(16, 185, 129, .25); position: relative; overflow: hidden; }
+.cv-bal::before { content: ""; position: absolute; right: -40px; top: -40px; width: 140px; height: 140px; border-radius: 50%; border: 18px solid rgba(255, 255, 255, .08); }
+.cv-bal small { font-size: 12px; opacity: .85; }
+.cv-bal .amt { font-family: var(--font-brand); font-weight: 800; font-size: 30px; letter-spacing: -.02em; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.cv-bal .chg { display: inline-block; margin-top: 6px; font-size: 12px; padding: 2px 8px; border-radius: 999px; background: rgba(4, 18, 11, .35); }
+.cv-bal svg { display: block; width: 100%; height: 48px; margin-top: 8px; }
+.cv-bal svg path.l { fill: none; stroke: #fff; stroke-width: 2.4; stroke-dasharray: 400; stroke-dashoffset: 400; animation: cvdraw 1.8s ease 1.4s forwards; }
+.cv-bal svg path.f { fill: rgba(255, 255, 255, .14); opacity: 0; animation: fadeIn 1s ease 2.4s forwards; }
+.cv-acts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 18px; }
+.cv-act { text-align: center; font-size: 11px; color: var(--on-dark-soft); opacity: 0; animation: pop .6s cubic-bezier(.2, 1.4, .4, 1) forwards; }
+.cv-act span { display: grid; place-items: center; width: 50px; height: 50px; margin: 0 auto 6px; border-radius: 16px; background: rgba(110, 231, 183, .1); border: 1px solid var(--line); color: var(--mint); font-size: 20px; }
+.cv-mv-h { margin: 20px 0 8px; font-size: 13px; font-weight: 600; color: #fff; display: flex; justify-content: space-between; }
+.cv-mv-h span { color: var(--mint); font-weight: 500; }
+.cv-mv { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(167, 243, 208, .08); opacity: 0; animation: cvslide .6s ease forwards; }
+.cv-mv .ic { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: rgba(255, 255, 255, .06); color: var(--gold); }
+.cv-mv .t { flex: 1; font-size: 13px; } .cv-mv .t small { display: block; color: var(--on-dark-soft); font-size: 11px; }
+.cv-mv .m { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; } .cv-mv .m.up { color: var(--mint); }
+@keyframes cvslide { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+.cv-chip { position: absolute; display: flex; align-items: center; gap: 12px; padding: 12px 16px 12px 12px; border-radius: 18px; background: rgba(10, 33, 23, .72); border: 1px solid rgba(167, 243, 208, .2); backdrop-filter: blur(14px); box-shadow: 0 20px 40px rgba(0, 0, 0, .4); font-family: var(--font-ui); white-space: nowrap; opacity: 0; animation: cvchip .8s cubic-bezier(.2, 1.3, .4, 1) forwards, cvbob 5s ease-in-out infinite; }
+.cv-chip .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 18px; }
+.cv-chip small { display: block; font-size: 12px; color: var(--on-dark-soft); }
+.cv-chip b { font-size: 16px; color: #fff; font-family: var(--font-brand); }
+.cv-chip.c1 { left: -40px; top: 150px; animation-delay: 2.2s, 3s; } .cv-chip.c1 .ic { background: rgba(110, 231, 183, .16); color: var(--mint); }
+.cv-chip.c2 { right: -50px; top: 330px; animation-delay: 2.6s, 3.4s; } .cv-chip.c2 .ic { background: rgba(245, 196, 81, .16); color: var(--gold); }
+.cv-chip.c3 { left: -10px; top: 560px; animation-delay: 3s, 3.8s; } .cv-chip.c3 .ic { background: rgba(167, 243, 208, .12); color: var(--mint-soft); }
+@keyframes cvchip { from { opacity: 0; transform: translateY(20px) scale(.85); } to { opacity: 1; transform: none; } }
+@keyframes cvbob { 50% { translate: 0 -10px; } }
+.cv-orbit { position: absolute; left: 20px; top: 70px; width: 490px; height: 560px; border-radius: 50%; border: 1px dashed rgba(245, 196, 81, .22); transform: rotateX(68deg) rotateZ(-14deg); animation: fade 1s ease 1s both; }
+.cv-coin { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff3c4, #f5c451 50%, #b8860b); box-shadow: 0 0 18px rgba(245, 196, 81, .7); display: grid; place-items: center; color: #6b4a00; font-weight: 800; font-size: 15px; font-family: var(--font-brand); offset-path: path('M 0 -230 A 240 230 0 1 1 0 230 A 240 230 0 1 1 0 -230'); animation: cvorb 9s linear infinite; }
+@keyframes cvorb { from { offset-distance: 0%; } to { offset-distance: 100%; } }
 </style>
 </head>
 <body>
@@ -566,18 +644,58 @@ function Foot({ n }) { return html`<div className="foot"><span><b>Tree Bank</b> 
 function K({ children }) { return html`<div className="kicker in">${children}</div>`; }
 
 /* ---------- Diapositivas ---------- */
+function CountUp({ to, ms = 1800, delay = 0 }) {
+  const [v, setV] = useState(0);
+  useEffect(() => { let raf, t0; const id = setTimeout(() => { const step = (ts) => { t0 = t0 || ts; const p = Math.min(1, (ts - t0) / ms); setV(Math.round(to * (1 - Math.pow(1 - p, 3)))); if (p < 1) raf = requestAnimationFrame(step); }; raf = requestAnimationFrame(step); }, delay); return () => { clearTimeout(id); cancelAnimationFrame(raf); }; }, [to]);
+  return fmt(v);
+}
+
 function Cover() {
-  return html`<div className="slide">
-    <${Scene} left="TREE" right="BANK" sub="Tu banco, tu naturaleza" />
-    <div className="cover-ui">
-      <div className="cover-top"><div className="wm"><${Mark} />Prácticas Profesionalizantes II</div></div>
-      <p className="cover-lead">Banca digital <span>conectada al Banco Central.</span></p>
-      <div className="cover-bottom">
-        <div className="team">${['Carrara Gianluca', 'Berterame Braian', 'Paez Milton'].map((n) => html`<${Tag} key=${n} bordered=${false}>${n}</${Tag}>`)}</div>
-        <div className="qrbox"><${QRCode} value=${APP} size=${86} bordered=${false} color="#10261c" bgColor="#ffffff" /><div><small>Escanee para ingresar</small><b>tree-bank1.netlify.app</b></div></div>
-      </div>
+  const rows = [[['Hacé', 0], ['crecer', 1, 'g']], [['tu', 2], ['plata', 3], ['desde', 4]], [['el', 5], ['celular.', 6]]];
+  const acts = [[I.SwapOutlined, 'Transferir'], [I.FileTextOutlined, 'Pagar'], [I.RiseOutlined, 'Invertir'], [I.DollarOutlined, 'Préstamo']];
+  const movs = [[I.BankOutlined, 'Sueldo', 'Estudio Contable Sur', '+ $ 850.000', 'up'], [I.ThunderboltOutlined, 'Pago de luz', 'Edenor', '− $ 9.420', ''], [I.UserOutlined, 'Lucía Gómez', 'Transferencia', '+ $ 12.500', 'up']];
+  return html`<div className="slide"><div className="cv">
+    <div className="cv-blob a"></div><div className="cv-blob b"></div><div className="cv-blob c"></div>
+    <div className="cv-grid"></div>
+    <svg className="cv-chart" viewBox="0 0 1600 900" aria-hidden="true">
+      <defs>
+        <linearGradient id="cvLine" x1="0" x2="1"><stop offset="0" stopColor="#10b981" stopOpacity=".1" /><stop offset=".5" stopColor="#6ee7b7" /><stop offset="1" stopColor="#f5c451" /></linearGradient>
+        <linearGradient id="cvArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#10b981" stopOpacity=".18" /><stop offset="1" stopColor="#10b981" stopOpacity="0" /></linearGradient>
+      </defs>
+      <path className="ar" d="M-10 820 C 200 800, 320 760, 480 740 S 760 700, 900 600 S 1150 480, 1260 380 S 1420 230, 1505 168 L 1505 900 L -10 900 Z" />
+      <path className="ln" d="M-10 820 C 200 800, 320 760, 480 740 S 760 700, 900 600 S 1150 480, 1260 380 S 1420 230, 1505 168" />
+      <g className="tip"><circle className="p" cx="1505" cy="168" r="8" fill="none" stroke="#f5c451" strokeWidth="2" /><circle cx="1505" cy="168" r="7" fill="#f5c451" /></g>
+    </svg>
+    <div className="cv-top">
+      <div className="cv-brand"><${Mark} />TREE BANK</div>
+      <div className="cv-live"><i></i>Prácticas Profesionalizantes II · 2026</div>
     </div>
-  </div>`;
+    <div className="cv-left">
+      <div className="cv-eyebrow"><b>Nuevo</b>Banca digital conectada al Banco Central</div>
+      <h1 className="cv-h">${rows.map((r, k) => html`<span key=${k} className="row">${r.map(([w, n, c]) => html`<span key=${w} className=${'w' + (c ? ' ' + c : '')} style=${{ animationDelay: 0.35 + n * 0.09 + 's' + (c ? ', 1.5s' : '') }}>${w}</span>${' '}`)}</span>`)}</h1>
+      <p className="cv-lead">Cuentas en <b>pesos y dólares</b>, transferencias con <b>CBU y alias reales</b>, préstamos e inversiones. Todo en una sola app.</p>
+    </div>
+    <div className="cv-bottom">
+      <div className="team">${['Carrara Gianluca', 'Berterame Braian', 'Paez Milton'].map((n) => html`<${Tag} key=${n} bordered=${false}>${n}</${Tag}>`)}</div>
+      <div className="qrbox"><${QRCode} value=${APP} size=${78} bordered=${false} color="#10261c" bgColor="#ffffff" /><div><small>Escanee para ingresar</small><b>tree-bank1.netlify.app</b></div></div>
+    </div>
+    <div className="cv-stage tilt3d"><div className="cv-float">
+      <div className="cv-phone"><div className="cv-screen"><div className="cv-notch"></div>
+        <div className="cv-hi"><div>Hola,<b>María</b></div><div className="cv-av">M</div></div>
+        <div className="cv-bal"><small>Saldo disponible · Caja de ahorro</small>
+          <div className="amt"><${CountUp} to=${1284500} delay=${900} /></div>
+          <span className="chg">▲ 12,4% este mes</span>
+          <svg viewBox="0 0 260 48" preserveAspectRatio="none"><path className="f" d="M0 42 C 30 40, 50 34, 80 36 S 130 26, 160 22 S 220 12, 260 4 L 260 48 L 0 48 Z" /><path className="l" d="M0 42 C 30 40, 50 34, 80 36 S 130 26, 160 22 S 220 12, 260 4" /></svg>
+        </div>
+        <div className="cv-acts">${acts.map(([Ic, t], k) => html`<div key=${t} className="cv-act" style=${{ animationDelay: 1.6 + k * 0.1 + 's' }}><span><${Ic} /></span>${t}</div>`)}</div>
+        <div className="cv-mv-h">Últimos movimientos<span>Ver todos</span></div>
+        ${movs.map(([Ic, t, s, m, c], k) => html`<div key=${t} className="cv-mv" style=${{ animationDelay: 2 + k * 0.15 + 's' }}><div className="ic"><${Ic} /></div><div className="t">${t}<small>${s}</small></div><div className=${'m ' + c}>${m}</div></div>`)}
+      </div></div>
+      <div className="cv-chip c1"><div className="ic"><${I.ArrowDownOutlined} /></div><div><small>Transferencia recibida</small><b>+ $ 85.000</b></div></div>
+      <div className="cv-chip c2"><div className="ic"><${I.SafetyCertificateOutlined} /></div><div><small>Banco Central</small><b>CBU verificado</b></div></div>
+      <div className="cv-chip c3"><div className="ic"><${I.LineChartOutlined} /></div><div><small>Acciones · precio real</small><b>▲ 2,4% hoy</b></div></div>
+    </div></div>
+  </div></div>`;
 }
 
 function Propuesta() {
