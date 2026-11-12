@@ -81,6 +81,14 @@ export default function LoginPage() {
           </div>
 
           <QrCelular />
+          {/* Para quien todavia no es cliente: este QR abre /test y lo deja
+              adentro de una cuenta de prueba, sin registrarse */}
+          <QrCelular
+            ruta="/test"
+            icono="user"
+            titulo="¿Todavía no sos cliente?"
+            texto="Escaneá el código y probá Tree Bank con una cuenta de prueba."
+          />
         </div>
 
         {/* ── Tarjeta de login ── */}
@@ -163,6 +171,10 @@ export default function LoginPage() {
             ¿Primera vez? <Link to="/register">Crear contraseña</Link>
             {' · '}
             <Link to="/abrir-cuenta">Abrir una cuenta</Link>
+          </p>
+
+          <p className="auth-footer" style={{ marginTop: 10 }}>
+            ¿Todavía no sos cliente? <Link to="/test">Probar con una cuenta de prueba</Link>
           </p>
 
           <p className="secure-note">

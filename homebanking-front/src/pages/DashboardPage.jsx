@@ -22,7 +22,7 @@ const ACCIONES = [
 ];
 
 export default function DashboardPage() {
-  const { usuario } = useAuth();
+  const { usuario, esDemo } = useAuth();
   const [cuentas, setCuentas]       = useState([]);
   const [cargando, setCargando]     = useState(true);
   const [errorCarga, setErrorCarga] = useState('');
@@ -152,7 +152,8 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {!tieneUsd && (
+          {/* La cuenta de prueba no incluye la caja en dolares (depende de Cambio) */}
+          {!tieneUsd && !esDemo && (
             <div className="dash-panel anim-up-2" style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', marginTop: 18 }}>
               <div className="quick-action-icon" style={{ flexShrink: 0 }}>
                 <Icon name="loan" size={22} />

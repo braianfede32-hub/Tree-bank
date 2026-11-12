@@ -226,6 +226,39 @@ node scripts/admin.js password <dni> <nueva>     # define o resetea una contrase
 - Perfil editable con foto, cambio de alias y de contraseña
 - Sincronización automática con el Banco Central cada 15 minutos
 
+## Cuenta de prueba (`/test`)
+
+Pensada para quien **todavía no es cliente ni socio del banco** y quiere ver cómo funciona.
+Entrar a `/test` —o escanear el QR "¿Todavía no sos cliente?" que aparece en el login— crea una
+sesión de prueba y deja a la persona adentro como cliente de una cuenta ficticia, sin registrarse.
+
+- **Qué trae**: una caja de ahorro en ARS con saldo ($ 1.262.150), unos 30 movimientos de los
+  últimos 3 meses (sueldos, servicios, recargas, transferencias, depósitos) y contactos con los que
+  ya se operó. El saldo es exactamente la suma de los movimientos, igual que en la base real.
+- **Qué se puede hacer**: Inicio, Transferir, Movimientos, Depósitos, Mi perfil y Reportar un
+  problema. El resto (préstamos, tarjetas, inversiones, etc.) muestra "Disponible para clientes"
+  con un acceso para abrir una cuenta real.
+- **Transferencias simuladas**: a un contacto, a un alias de prueba (`lucia.fernandez`,
+  `martin.rodriguez`, `comercio.demo`…) o a cualquier CBU de 22 dígitos. Descuentan el saldo,
+  generan el movimiento y el comprobante; validan saldo insuficiente, montos y CBU propio.
+- **Aislamiento**: en la sesión de prueba **ningún pedido sale del navegador**. `src/api/api.js`
+  detecta la sesión y le pasa todos los pedidos a un adapter de axios (`src/demo/demoApi.js`) que
+  responde con datos locales; lo que no está contemplado se rechaza con 403 en vez de dejarlo pasar
+  al backend. No se manda ningún token, no se toca Supabase ni el Banco Central. Los CBU ficticios
+  empiezan con `999`, que no existen en el sistema real.
+- **Se borra al cerrar sesión**: el estado vive solo en el `sessionStorage` de la pestaña. Cerrar
+  sesión lo elimina (junto con la foto de perfil y los favoritos marcados sobre contactos
+  ficticios); si se cierra la pestaña desaparece solo, y cada entrada por `/test` arranca de cero.
+  La sesión de prueba no usa el `localStorage`, así que tampoco pisa el login de un cliente real
+  que tenga abierto el banco en el mismo navegador.
+- **El QR** lo arma `QrCelular` con la URL del sitio + `/test` (en desarrollo usa la IP de la PC
+  en la red local, igual que el QR de "Abrilo en tu celular"). En producción no hace falta ninguna
+  variable nueva: Netlify ya devuelve `index.html` para cualquier ruta.
+
+Código: `homebanking-front/src/demo/` (`demoData.js` datos semilla, `demoStore.js` estado de la
+sesión, `demoApi.js` el "backend" falso). Para sumar una pantalla a la demo hay que agregar su
+ruta en `RUTAS_DEMO` (`demoData.js`) y sus endpoints en la tabla `RUTAS` de `demoApi.js`.
+
 ## Seguridad
 
 - **Autenticación**: contraseñas con bcrypt, sesiones con JWT (8 hs de expiración). El servidor

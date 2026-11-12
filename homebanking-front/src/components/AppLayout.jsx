@@ -31,7 +31,7 @@ const NAV_ITEMS_ADMIN = [
 
 // Shell compartido: sidebar en desktop, topbar + bottom-nav en mobile
 export default function AppLayout({ children }) {
-  const { usuario, logout, foto, esStaff, esAdmin } = useAuth();
+  const { usuario, logout, foto, esStaff, esAdmin, esDemo } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const NAV_ITEMS = esStaff ? NAV_ITEMS_ADMIN : NAV_ITEMS_CLIENTE;
@@ -91,7 +91,7 @@ export default function AppLayout({ children }) {
               <div className="sidebar-user-name">
                 {usuario?.nombre} {usuario?.apellido || ''}
               </div>
-              <div className="sidebar-user-dni">{esAdmin ? 'Administrador' : esStaff ? 'Empleado · Soporte' : `DNI ${usuario?.dni}`}</div>
+              <div className="sidebar-user-dni">{esDemo ? 'Cuenta de prueba' : esAdmin ? 'Administrador' : esStaff ? 'Empleado · Soporte' : `DNI ${usuario?.dni}`}</div>
             </div>
             <button className="btn-icon-ghost" onClick={handleLogout} title="Cerrar sesión">
               <Icon name="logout" size={17} />
@@ -128,6 +128,16 @@ export default function AppLayout({ children }) {
           {/* Splash decorativo (mismo de LoginPage), anclado al área de contenido */}
           <div className="app-blob b1" />
           <div className="app-blob b2" />
+          {/* Cuenta de prueba (/test): que quede claro que nada es real */}
+          {esDemo && (
+            <div className="alert alert-warn anim-up" role="status">
+              <Icon name="shield" size={16} />
+              <span>
+                <strong>Cuenta de prueba.</strong> Los datos son ficticios y nada de lo que hagas es real:
+                se borra todo al cerrar sesión.
+              </span>
+            </div>
+          )}
           {children}
         </main>
       </div>
