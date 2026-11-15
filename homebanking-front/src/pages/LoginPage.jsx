@@ -80,7 +80,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <QrCelular />
           {/* Para quien todavia no es cliente: este QR abre /test y lo deja
               adentro de una cuenta de prueba, sin registrarse */}
           <QrCelular
