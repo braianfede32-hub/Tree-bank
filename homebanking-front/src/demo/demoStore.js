@@ -9,7 +9,7 @@
 // Y como la sesión demo no usa el localStorage, tampoco pisa el token de un
 // cliente real que tenga abierto el banco en el mismo navegador.
 // ============================================================
-import { crearEstadoInicial, DNI_DEMO, DIRECTORIO, CBU_PROPIO } from './demoData';
+import { crearEstadoInicial, DNI_DEMO, DIRECTORIO, CBU_PROPIO, CBU_PROPIO_USD, VERSION_ESTADO } from './demoData';
 
 const CLAVE = 'tb_demo_sesion';
 
@@ -20,7 +20,11 @@ let enMemoria = null;
 function leer() {
   try {
     const crudo = sessionStorage.getItem(CLAVE);
-    if (crudo) return JSON.parse(crudo);
+    if (crudo) {
+      const estado = JSON.parse(crudo);
+      // Una sesión guardada con un formato viejo se descarta: se entra de nuevo por /test
+      return estado?.version === VERSION_ESTADO ? estado : null;
+    }
   } catch { /* storage bloqueado o JSON corrupto: se usa la copia en memoria */ }
   return enMemoria;
 }
@@ -48,7 +52,7 @@ function limpiarRastros() {
   try { sessionStorage.removeItem(`tb_foto_${DNI_DEMO}`); } catch { /* nada que borrar */ }
 
   try {
-    const cbusDemo = new Set([CBU_PROPIO, ...DIRECTORIO.map((d) => d.cbu)]);
+    const cbusDemo = new Set([CBU_PROPIO, CBU_PROPIO_USD, ...DIRECTORIO.map((d) => d.cbu)]);
     const favoritos = JSON.parse(localStorage.getItem('tb_favoritos') || '[]');
     const restantes = favoritos.filter((cbu) => !cbusDemo.has(cbu));
     if (restantes.length === favoritos.length) return;

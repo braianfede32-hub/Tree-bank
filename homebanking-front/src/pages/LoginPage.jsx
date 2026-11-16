@@ -7,6 +7,9 @@ import QrCelular from '../components/QrCelular';
 import api from '../api/api';
 import ThemeToggle from '../components/ThemeToggle';
 
+// Link público de la cuenta de prueba: el QR del login lleva siempre acá
+const URL_CUENTA_PRUEBA = 'https://tree-bank1.netlify.app/test';
+
 export default function LoginPage() {
   // Si el usuario eligió "recordar mi DNI", lo precargamos
   const [dni, setDni]           = useState(() => localStorage.getItem('tb_dni') || '');
@@ -83,7 +86,7 @@ export default function LoginPage() {
           {/* Para quien todavia no es cliente: este QR abre /test y lo deja
               adentro de una cuenta de prueba, sin registrarse */}
           <QrCelular
-            ruta="/test"
+            urlFija={URL_CUENTA_PRUEBA}
             icono="user"
             titulo="¿Todavía no sos cliente?"
             texto="Escaneá el código y probá Tree Bank con una cuenta de prueba."

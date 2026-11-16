@@ -20,14 +20,15 @@ const urlBase = () => {
 export default function QrCelular({
   className = '',
   ruta = '',
+  urlFija = '', // si se pasa, el QR apunta siempre a esa URL (en vez de a esta pagina)
   titulo = 'Abrilo en tu celular',
   texto = 'Escaneá el código con la cámara.',
   icono = 'phone',
 }) {
   const [qr, setQr] = useState('');
-  const base = urlBase();
-  const url = `${base}${ruta}`;
-  const usaIpLocal = base !== window.location.origin;
+  const base = urlFija ? '' : urlBase();
+  const url = urlFija || `${base}${ruta}`;
+  const usaIpLocal = !urlFija && base !== window.location.origin;
 
   useEffect(() => {
     QRCode.toDataURL(url, { margin: 1, width: 240, color: { dark: '#10261C', light: '#FFFFFF' } })

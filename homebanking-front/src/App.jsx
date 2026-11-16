@@ -1,9 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import SplashScreen from './components/SplashScreen';
-import DemoNoDisponible from './components/DemoNoDisponible';
-import { RUTAS_DEMO } from './demo/demoData';
 import DemoEntradaPage from './pages/DemoEntradaPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -37,13 +35,10 @@ function Cargando() {
 // Ruta protegida: si no esta logueado, manda al login.
 // Admins y empleados no operan cuentas propias, asi que van directo al panel.
 function RutaPrivada({ children }) {
-  const { usuario, cargando, esStaff, esDemo } = useAuth();
-  const { pathname } = useLocation();
+  const { usuario, cargando, esStaff } = useAuth();
   if (cargando) return <Cargando />;
   if (!usuario) return <Navigate to="/login" />;
   if (esStaff) return <Navigate to="/admin" />;
-  // La cuenta de prueba (/test) solo incluye algunas secciones
-  if (esDemo && !RUTAS_DEMO.includes(pathname)) return <DemoNoDisponible />;
   return children;
 }
 

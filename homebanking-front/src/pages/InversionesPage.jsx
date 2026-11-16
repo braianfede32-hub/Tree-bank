@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import AppLayout from '../components/AppLayout';
 import Icon from '../components/Icon';
 import TickerLogo from '../components/TickerLogo';
@@ -146,6 +147,7 @@ function GraficoHistorico({ mercado, simbolo, monedaPrefijo, onCerrar }) {
 }
 
 export default function InversionesPage() {
+  const { esDemo } = useAuth();
   const [tab, setTab] = useState('ACCION_AR');
 
   return (
@@ -153,7 +155,9 @@ export default function InversionesPage() {
       <div className="anim-up">
         <h1 className="page-title">Inversiones</h1>
         <p className="page-sub">
-          Cotizaciones reales en vivo (BYMA y mercados de EE.UU., vía data912.com) y cauciones a plazo.
+          {esDemo
+            ? 'Cotizaciones de prueba (precios fijos de BYMA y mercados de EE.UU.) y cauciones a plazo.'
+            : 'Cotizaciones reales en vivo (BYMA y mercados de EE.UU., vía data912.com) y cauciones a plazo.'}
         </p>
       </div>
 

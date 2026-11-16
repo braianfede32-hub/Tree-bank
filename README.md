@@ -232,12 +232,21 @@ Pensada para quien **todavía no es cliente ni socio del banco** y quiere ver c�
 Entrar a `/test` —o escanear el QR "¿Todavía no sos cliente?" que aparece en el login— crea una
 sesión de prueba y deja a la persona adentro como cliente de una cuenta ficticia, sin registrarse.
 
-- **Qué trae**: una caja de ahorro en ARS con saldo ($ 1.262.150), unos 30 movimientos de los
-  últimos 3 meses (sueldos, servicios, recargas, transferencias, depósitos) y contactos con los que
-  ya se operó. El saldo es exactamente la suma de los movimientos, igual que en la base real.
-- **Qué se puede hacer**: Inicio, Transferir, Movimientos, Depósitos, Mi perfil y Reportar un
-  problema. El resto (préstamos, tarjetas, inversiones, etc.) muestra "Disponible para clientes"
-  con un acceso para abrir una cuenta real.
+- **Qué trae**: una caja de ahorro en ARS ($ 680.150) y una en USD (U$S 385), unos 35 movimientos
+  de los últimos 3 meses (sueldos, servicios, recargas, transferencias, depósitos, cambio de
+  dólares), una tarjeta VISA con consumo, un seguro de hogar, una reserva ("Vacaciones") y dos
+  tenencias de acciones (GGAL y AAPL). El saldo es exactamente la suma de los movimientos, igual
+  que en la base real.
+- **Qué se puede hacer**: **todo**. Transferir, depositar, pedir préstamos y pagar cuotas, emitir
+  tarjetas / comprar / pagar el resumen, contratar y cancelar seguros, crear reservas, pagar
+  servicios, recargar el celular, comprar y vender dólares, comprar y vender acciones (AR y EE.UU.,
+  con gráfico histórico), colocar cauciones y editar el perfil. Las reglas son las del backend real
+  (límite de préstamo según lo ingresado, una tarjeta activa por marca, saldo disponible menos
+  reservas, mismos mensajes de error). Lo que se hace **cambia solo lo que se ve en esa pestaña**.
+- **Todo hardcodeado**: cotizaciones de acciones, histórico, dólar (compra $ 1.400 / venta $ 1.450)
+  y curva de cauciones son valores fijos (`demoMercado.js`): no se consulta data912, Yahoo ni
+  DolarAPI, y los precios no se mueven mientras se prueba. El mercado de cauciones está siempre
+  abierto. La factura de un servicio da siempre lo mismo para el mismo número de cliente.
 - **Transferencias simuladas**: a un contacto, a un alias de prueba (`lucia.fernandez`,
   `martin.rodriguez`, `comercio.demo`…) o a cualquier CBU de 22 dígitos. Descuentan el saldo,
   generan el movimiento y el comprobante; validan saldo insuficiente, montos y CBU propio.
@@ -251,13 +260,14 @@ sesión de prueba y deja a la persona adentro como cliente de una cuenta fictici
   ficticios); si se cierra la pestaña desaparece solo, y cada entrada por `/test` arranca de cero.
   La sesión de prueba no usa el `localStorage`, así que tampoco pisa el login de un cliente real
   que tenga abierto el banco en el mismo navegador.
-- **El QR** lo arma `QrCelular` con la URL del sitio + `/test` (en desarrollo usa la IP de la PC
-  en la red local, igual que el QR de "Abrilo en tu celular"). En producción no hace falta ninguna
-  variable nueva: Netlify ya devuelve `index.html` para cualquier ruta.
+- **El QR** del login apunta siempre al link público de la prueba:
+  <https://tree-bank1.netlify.app/test> (constante `URL_CUENTA_PRUEBA` en `LoginPage.jsx`). No hace
+  falta ninguna variable nueva: Netlify ya devuelve `index.html` para cualquier ruta.
 
 Código: `homebanking-front/src/demo/` (`demoData.js` datos semilla, `demoStore.js` estado de la
-sesión, `demoApi.js` el "backend" falso). Para sumar una pantalla a la demo hay que agregar su
-ruta en `RUTAS_DEMO` (`demoData.js`) y sus endpoints en la tabla `RUTAS` de `demoApi.js`.
+sesión, `demoApi.js` el "backend" falso, `demoMercado.js` acciones/dólar/cauciones fijos). Para
+sumar un endpoint a la demo hay que agregarlo en la tabla `RUTAS` de `demoApi.js`. Si cambia el
+formato del estado inicial, subir `VERSION_ESTADO` (`demoData.js`) para descartar sesiones viejas.
 
 ## Seguridad
 
